@@ -24,7 +24,7 @@ public class NotebookappApplication extends Application<NotebookappConfiguration
     @Override
     public void initialize(final Bootstrap<NotebookappConfiguration> bootstrap) {
 		// static assets (html, css, js, ...)
-		bootstrap.addBundle(new AssetsBundle("/assets", "/"));
+		bootstrap.addBundle(new AssetsBundle("/assets", "/", "index.html"));
 		// swagger
 		bootstrap.addBundle(new SwaggerBundle<NotebookappConfiguration>() {
 			protected SwaggerBundleConfiguration getSwaggerBundleConfiguration(
