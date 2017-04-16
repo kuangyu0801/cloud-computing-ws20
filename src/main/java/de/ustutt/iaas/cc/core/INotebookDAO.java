@@ -7,6 +7,8 @@ public interface INotebookDAO {
 
 	public Notebook getNotebook();
 	
-	public void addNote(Note note);
+	public void createOrUpdateNote(Note note);
+	
+	public void deleteNote(Note note);
 	
 }

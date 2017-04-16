@@ -48,7 +48,7 @@ public class NotebookResource {
 	@Consumes({ MediaType.APPLICATION_JSON })
 	@Timed
 	public void createNote(Note note) {
-		dao.addNote(note);
+		dao.createOrUpdateNote(note);
 	}
 
 	@POST
@@ -58,7 +58,7 @@ public class NotebookResource {
 		Note note = new Note();
 		note.setAuthor(author);
 		note.setText(text);
-		dao.addNote(note);
+		dao.createOrUpdateNote(note);
 		return new NotebookView(dao.getNotebook());
 	}
 
