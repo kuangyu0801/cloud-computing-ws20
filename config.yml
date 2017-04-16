@@ -1,0 +1,17 @@
+server:
+  # assets are served from the root path
+  rootPath: /api/*
+
+logging:
+  level: INFO
+  loggers:
+    de.ustutt.iaas.cc: DEBUG
+
+swagger:
+  resourcePackage: de.ustutt.iaas.cc.resources
+
+# the key needs to match the suffix of the renderer
+viewRendererConfiguration:
+    .ftl:
+        strict_syntax: yes
+        whitespace_stripping: yes
