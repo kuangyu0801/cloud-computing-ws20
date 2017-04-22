@@ -17,6 +17,7 @@ import com.codahale.metrics.annotation.Timed;
 import de.ustutt.iaas.cc.api.Note;
 import de.ustutt.iaas.cc.api.Notebook;
 import de.ustutt.iaas.cc.core.INotebookDAO;
+import de.ustutt.iaas.cc.core.ITextProcessor;
 import io.dropwizard.views.View;
 import io.swagger.annotations.Api;
 
@@ -25,9 +26,11 @@ import io.swagger.annotations.Api;
 public class NotebookResource {
 
 	INotebookDAO dao;
+	ITextProcessor processor;
 
-	public NotebookResource(INotebookDAO dao) {
+	public NotebookResource(INotebookDAO dao, ITextProcessor processor) {
 		this.dao = dao;
+		this.processor = processor;
 	}
 
 	@GET

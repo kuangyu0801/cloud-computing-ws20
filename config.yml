@@ -1,5 +1,5 @@
 server:
-  # assets are served from the root path
+  # assets are served from "/*", JAX-RS resources from "/api/*"
   rootPath: /api/*
 
 logging:
@@ -15,3 +15,6 @@ viewRendererConfiguration:
     .ftl:
         strict_syntax: yes
         whitespace_stripping: yes
+
+# optional
+#serviceInstanceID: service 1

@@ -18,4 +18,15 @@ public class NotebookappConfiguration extends Configuration {
 	@JsonProperty("viewRendererConfiguration")
 	public Map<String, Map<String, String>> viewRendererConfiguration;
 
+	private String serviceInstanceID;
+
+	@JsonProperty("serviceInstanceID")
+	public String getServiceInstanceID() {
+		return serviceInstanceID;
+	}
+
+	public void setServiceInstanceID(String serviceInstanceID) {
+		this.serviceInstanceID = serviceInstanceID;
+	}
+	
 }
