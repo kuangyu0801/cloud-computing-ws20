@@ -1,26 +1,23 @@
-# notebookapp
+# Simple Notebook App
 
-How to start the notebookapp application
----
+## How to start the notebook application
 
 1. Run `mvn clean install` to build your application
-2. Start application with `java -jar target/notebookapp-1.0-SNAPSHOT.jar server config.yml`
-3. To check that your application is running enter url `http://localhost:8080/api` 
+2. Start application with `java -jar target/notebookapp-0.1.0.jar server config.yml`
+3. To check that your application is running enter url `http://localhost:8080` 
 
-Static HTML UI
----
+## How to access the notebook application
+REST API  
 `http://localhost:8080/api`
 
-Angular-based UI
----
+Angular-based UI  
 `http://localhost:8080`
 
-
-Swagger UI
----
+Swagger UI  
 `http://localhost:8080/api/swagger`
 
-Health Check
----
+Monitoring API (Metrics, Health Checks, ...)  
+`http://localhost:8081`
 
-To see your applications health enter url `http://localhost:8081/healthcheck`
+## How to configure the notebook application
+All configuration is done by editing the `config.yml` file. 
