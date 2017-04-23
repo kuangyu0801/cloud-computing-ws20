@@ -1,5 +1,11 @@
 package de.ustutt.iaas.cc.api;
 
+/**
+ * A note without a text, comprising only an ID and an author.
+ * 
+ * @author hauptfn
+ *
+ */
 public class Note {
 
     private String id;

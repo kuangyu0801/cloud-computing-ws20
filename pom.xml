@@ -9,7 +9,11 @@
 
 	<groupId>de.ustutt.iaas.cc</groupId>
 	<artifactId>notebookapp</artifactId>
-	<version>1.0-SNAPSHOT</version>
+	<!-- semantic versioning 2.0.0, see http://semver.org/ -->
+	<!-- 0.x.y = development release, nothing stable -->
+	<!-- 1.0.0 = initial release of public API -->
+	<!-- x.y.z = major.minor.patch -->
+	<version>0.1.0</version>
 	<packaging>jar</packaging>
 
 	<name>notebookapp</name>
@@ -47,7 +51,7 @@
 			<version>${dropwizard-swagger.version}</version>
 		</dependency>
 		
-		<!-- UI -->
+		<!-- static asset serving, required for UI -->
 		<dependency>
 			<groupId>io.dropwizard</groupId>
 			<artifactId>dropwizard-assets</artifactId>

@@ -1,14 +1,44 @@
+#------------------------------------------------------------
+# General Server Configuration 
+#------------------------------------------------------------
+
 server:
-  # assets are served from "/*", JAX-RS resources from "/api/*"
+  # JAX-RS resources are served from "/api/*"
+  # (asset bundle by default serves assets from "/*")
   rootPath: /api/*
+  applicationConnectors:
+    - type: http
+      port: 8080
+  adminConnectors:
+    - type: http
+      port: 8081
 
 logging:
+  # The default level of all loggers. Can be OFF, ERROR, WARN, INFO, DEBUG, TRACE, or ALL.
   level: INFO
   loggers:
     de.ustutt.iaas.cc: DEBUG
+    # shows error messages when JSON parsing fails
+    #io.dropwizard.jersey.jackson: DEBUG
+  appenders:
+    # write log to console
+    - type: console
+    # write log to file
+    - type: file
+      threshold: DEBUG
+      logFormat: "%-6level [%d{HH:mm:ss.SSS}] [%t] %logger{5} - %X{code} %msg %n"
+      currentLogFilename: /tmp/application.log
+      archivedLogFilenamePattern: /tmp/application-%d{yyyy-MM-dd}.log
+      archivedFileCount: 7
+      timeZone: UTC
 
+# swagger configuration
 swagger:
   resourcePackage: de.ustutt.iaas.cc.resources
 
-# optional
+#------------------------------------------------------------
+# Notebook App Configuration 
+#------------------------------------------------------------
+
+# sets the ID of this service instance, optional
 #serviceInstanceID: service 1

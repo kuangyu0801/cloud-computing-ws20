@@ -20,12 +20,20 @@ import de.ustutt.iaas.cc.core.INotebookDAO;
 import de.ustutt.iaas.cc.core.ITextProcessor;
 import io.swagger.annotations.Api;
 
+/**
+ * The resource class providing all methods offered by the REST API.
+ * 
+ * @author hauptfn
+ *
+ */
 @Path("")
 @Api(value = "Notebook")
 public class NotebookResource {
 
-    INotebookDAO dao;
-    ITextProcessor processor;
+    // DAO, used for data access
+    private final INotebookDAO dao;
+    // text processor, used for processing text before returning it
+    private final ITextProcessor processor;
 
     public NotebookResource(INotebookDAO dao, ITextProcessor processor) {
 	this.dao = dao;
@@ -43,9 +51,15 @@ public class NotebookResource {
     @Consumes({ MediaType.APPLICATION_JSON })
     @Timed
     public NoteWithText createNote(NoteWithText note) {
-	NoteWithText result = dao.createOrUpdateNote(note);
-	result.setText(processor.process(result.getText()));
-	return result;
+	if (note != null) {
+	    // create note
+	    NoteWithText result = dao.createOrUpdateNote(note);
+	    // process its text
+	    result.setText(processor.process(result.getText()));
+	    // return note with processed text
+	    return result;
+	}
+	return null;
     }
 
     @GET
@@ -53,8 +67,13 @@ public class NotebookResource {
     @Produces({ MediaType.APPLICATION_JSON })
     @Timed
     public NoteWithText getNote(@PathParam(value = "noteID") String noteID) {
+	// get note (if present)
 	NoteWithText result = dao.getNote(noteID);
-	result.setText(processor.process(result.getText()));
+	if (result != null) {
+	    // process its text
+	    result.setText(processor.process(result.getText()));
+	}
+	// return note with processed text
 	return result;
     }
 
@@ -63,11 +82,17 @@ public class NotebookResource {
     @Produces({ MediaType.APPLICATION_JSON })
     @Timed
     public NoteWithText updateNote(@PathParam(value = "noteID") String noteID, NoteWithText note) {
-	// just in case...
-	note.setId(noteID);
-	NoteWithText result = dao.createOrUpdateNote(note);
-	result.setText(processor.process(result.getText()));
-	return result;
+	if (note != null) {
+	    // just in case...
+	    note.setId(noteID);
+	    // update note (or create it, if it does not yet exist)
+	    NoteWithText result = dao.createOrUpdateNote(note);
+	    // process its text
+	    result.setText(processor.process(result.getText()));
+	    // return note with processed text
+	    return result;
+	}
+	return null;
     }
 
     @DELETE
@@ -75,6 +100,7 @@ public class NotebookResource {
     @Produces({ MediaType.APPLICATION_JSON })
     @Timed
     public void deleteNote(@PathParam(value = "noteID") String noteID) {
+	// delete note if present
 	dao.deleteNote(noteID);
     }
 

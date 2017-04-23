@@ -37,7 +37,7 @@ public class NotebookappApplication extends Application<NotebookappConfiguration
     public void initialize(final Bootstrap<NotebookappConfiguration> bootstrap) {
 	// static assets (html, css, js, ...)
 	bootstrap.addBundle(new AssetsBundle("/assets", "/", "index.html"));
-	// swagger
+	// swagger UI
 	bootstrap.addBundle(new SwaggerBundle<NotebookappConfiguration>() {
 	    protected SwaggerBundleConfiguration getSwaggerBundleConfiguration(NotebookappConfiguration configuration) {
 		return configuration.swaggerBundleConfiguration;
@@ -47,14 +47,19 @@ public class NotebookappApplication extends Application<NotebookappConfiguration
 
     @Override
     public void run(final NotebookappConfiguration configuration, final Environment environment) {
+	// get service instance ID from config file
 	myID = configuration.getServiceInstanceID();
+	// if not set, generate random service instance ID 
 	if (StringUtils.isBlank(myID)) {
 	    logger.debug("setting random service instance ID");
 	    myID = UUID.randomUUID().toString();
 	}
 	logger.info("Service Instance ID is: "+myID);
+	// get text processor
 	final ITextProcessor tp = new LocalTextProcessor(myID);
+	// get DAO
 	final INotebookDAO dao = new SimpleNotebookDAO();
+	// create and register resource class
 	final NotebookResource root = new NotebookResource(dao, tp);
 	environment.jersey().register(root);
     }
