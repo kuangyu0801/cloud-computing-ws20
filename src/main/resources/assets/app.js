@@ -9,10 +9,7 @@
     	$scope.reload = function() {
             $http.get(notebookBase)
             .success(function (response) {
-            	for(var i = 0, size = response.notes.length; i < size ; i++){
-            		var note = response.notes[i];
-            		$scope.notes[note.id] = note;
-            	}
+            	$scope.notes = response;
         	});
          };
     
@@ -23,15 +20,26 @@
             this.note = {};
         };
 
-        // not working!
         $scope.delete = function(id) {
             $http.delete(notebookBase + "/"+ id)
             .success(function (response) {$scope.reload();});
             $scope.note = {};
         }
 
+        $scope.update = function(id) {
+        	var toSend = $scope.note;
+            $http.put(notebookBase + "/"+ id, toSend)
+            .success(function (response) {$scope.reload();});
+            $scope.note = {};
+        }
+
         $scope.select = function(id) {
             $scope.note = $scope.notes[id];
+        }
+
+        $scope.edit = function(id) {
+        	$http.get(notebookBase + "/"+ id)
+        	.success(function (response) {$scope.note = response});
         }
 
         $scope.newNote = function() {

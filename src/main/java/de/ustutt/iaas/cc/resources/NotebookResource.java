@@ -1,92 +1,81 @@
 package de.ustutt.iaas.cc.resources;
 
-import java.util.Comparator;
 import java.util.Set;
-import java.util.TreeSet;
 
 import javax.ws.rs.Consumes;
-import javax.ws.rs.FormParam;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import com.codahale.metrics.annotation.Timed;
 
 import de.ustutt.iaas.cc.api.Note;
-import de.ustutt.iaas.cc.api.Notebook;
+import de.ustutt.iaas.cc.api.NoteWithText;
 import de.ustutt.iaas.cc.core.INotebookDAO;
 import de.ustutt.iaas.cc.core.ITextProcessor;
-import io.dropwizard.views.View;
 import io.swagger.annotations.Api;
 
 @Path("")
 @Api(value = "Notebook")
 public class NotebookResource {
 
-	INotebookDAO dao;
-	ITextProcessor processor;
+    INotebookDAO dao;
+    ITextProcessor processor;
 
-	public NotebookResource(INotebookDAO dao, ITextProcessor processor) {
-		this.dao = dao;
-		this.processor = processor;
-	}
+    public NotebookResource(INotebookDAO dao, ITextProcessor processor) {
+	this.dao = dao;
+	this.processor = processor;
+    }
 
-	@GET
-	@Produces({ MediaType.APPLICATION_JSON })
-	@Timed
-	public Notebook getNotebook() {
-		return dao.getNotebook();
-	}
+    @GET
+    @Produces({ MediaType.APPLICATION_JSON })
+    @Timed
+    public Set<Note> getNotes() {
+	return dao.getNotes();
+    }
 
-	@GET
-	@Produces({ MediaType.TEXT_HTML })
-	@Timed
-	public NotebookView getNotebookView() {
-		return new NotebookView(dao.getNotebook());
-	}
+    @POST
+    @Consumes({ MediaType.APPLICATION_JSON })
+    @Timed
+    public NoteWithText createNote(NoteWithText note) {
+	NoteWithText result = dao.createOrUpdateNote(note);
+	result.setText(processor.process(result.getText()));
+	return result;
+    }
 
-	@POST
-	@Consumes({ MediaType.APPLICATION_JSON })
-	@Timed
-	public void createNote(Note note) {
-		dao.createOrUpdateNote(note);
-	}
+    @GET
+    @Path("/{noteID}")
+    @Produces({ MediaType.APPLICATION_JSON })
+    @Timed
+    public NoteWithText getNote(@PathParam(value = "noteID") String noteID) {
+	NoteWithText result = dao.getNote(noteID);
+	result.setText(processor.process(result.getText()));
+	return result;
+    }
 
-	@POST
-	@Consumes({ MediaType.APPLICATION_FORM_URLENCODED })
-	@Timed
-	public NotebookView createNoteFromForm(@FormParam("author") String author, @FormParam("text") String text) {
-		Note note = new Note();
-		note.setAuthor(author);
-		note.setText(text);
-		dao.createOrUpdateNote(note);
-		return new NotebookView(dao.getNotebook());
-	}
+    @PUT
+    @Path("/{noteID}")
+    @Produces({ MediaType.APPLICATION_JSON })
+    @Timed
+    public NoteWithText updateNote(@PathParam(value = "noteID") String noteID, NoteWithText note) {
+	// just in case...
+	note.setId(noteID);
+	NoteWithText result = dao.createOrUpdateNote(note);
+	result.setText(processor.process(result.getText()));
+	return result;
+    }
 
-	public class NotebookView extends View {
-		private final Notebook notebook;
-
-		protected NotebookView(Notebook notebook) {
-			super("Notebook.ftl");
-			this.notebook = notebook;
-		}
-
-		public Notebook getNotebook() {
-			return notebook;
-		}
-
-		public Set<Note> getNotesSorted() {
-			TreeSet<Note> result = new TreeSet<Note>(new Comparator<Note>() {
-				@Override
-				public int compare(Note o1, Note o2) {
-					return o1.getId().compareTo(o2.getId());
-				}
-			});
-			result.addAll(notebook.getNotes());
-			return result;
-		}
-	}
+    @DELETE
+    @Path("/{noteID}")
+    @Produces({ MediaType.APPLICATION_JSON })
+    @Timed
+    public void deleteNote(@PathParam(value = "noteID") String noteID) {
+	dao.deleteNote(noteID);
+    }
 
 }

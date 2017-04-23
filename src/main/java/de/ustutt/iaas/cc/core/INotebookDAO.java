@@ -1,14 +1,18 @@
 package de.ustutt.iaas.cc.core;
 
+import java.util.Set;
+
 import de.ustutt.iaas.cc.api.Note;
-import de.ustutt.iaas.cc.api.Notebook;
+import de.ustutt.iaas.cc.api.NoteWithText;
 
 public interface INotebookDAO {
 
-	public Notebook getNotebook();
+	public Set<Note> getNotes();
 	
-	public void createOrUpdateNote(Note note);
+	public NoteWithText getNote(String noteID);
 	
-	public void deleteNote(Note note);
+	public NoteWithText createOrUpdateNote(NoteWithText note);
+	
+	public void deleteNote(String noteID);
 	
 }

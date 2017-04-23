@@ -2,53 +2,64 @@ package de.ustutt.iaas.cc.core;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.ustutt.iaas.cc.api.Note;
-import de.ustutt.iaas.cc.api.Notebook;
+import de.ustutt.iaas.cc.api.NoteWithText;
 
 public class SimpleNotebookDAO implements INotebookDAO {
 
-	private final static Logger logger = LoggerFactory
-			.getLogger(SimpleNotebookDAO.class);
+    private final static Logger logger = LoggerFactory.getLogger(SimpleNotebookDAO.class);
 
-	private static AtomicInteger idCounter = new AtomicInteger();
+    private static AtomicInteger idCounter = new AtomicInteger();
 
-	private Notebook notebook;
-	
-	public SimpleNotebookDAO() {
-		this.notebook = new Notebook();
-		notebook.setNotes(new HashSet<Note>());
-	}
-	
-	@Override
-	public Notebook getNotebook() {
-		return notebook;
-	}
+    private ConcurrentMap<String, NoteWithText> notebook;
 
-	@Override
-	public void createOrUpdateNote(Note note) {
-		if (note.getId() == null || note.getId().isEmpty() || note.getId().trim().isEmpty()) {
-			note.setId(Integer.toString(idCounter.incrementAndGet()));
-		} else {
-			boolean removed = removeNote(notebook.getNotes(), note.getId());
-			if (!removed) {
-				logger.warn("Note with id '{}' not found.", note.getId());
-			}
-		}
-		notebook.getNotes().add(note);
-	}
+    public SimpleNotebookDAO() {
+	this.notebook = new ConcurrentHashMap<String, NoteWithText>();
+    }
 
-	private boolean removeNote(Set<Note> notes, String id) {
-		return notes.removeIf(n -> n.getId().equals(id));
+    @Override
+    public Set<Note> getNotes() {
+	Set<Note> result = new HashSet<Note>();
+	for (NoteWithText note : notebook.values()) {
+	    result.add(new Note(note.getId(), note.getAuthor()));
 	}
+	return result;
+    }
 
-	@Override
-	public void deleteNote(Note note) {
-		notebook.getNotes().removeIf(n -> n.getId().equals(note.getId()));
+    @Override
+    public NoteWithText getNote(String noteID) {
+	NoteWithText result = null;
+	NoteWithText nwt = notebook.get(noteID);
+	if (nwt != null) {
+	    result = new NoteWithText(nwt.getId(), nwt.getAuthor(), nwt.getText());
 	}
+	return result;
+    }
+
+    @Override
+    public NoteWithText createOrUpdateNote(NoteWithText note) {
+	NoteWithText result = null;
+	if (note != null) {
+	    if (StringUtils.isBlank(note.getId())) {
+		note.setId(Integer.toString(idCounter.incrementAndGet()));
+	    }
+	    notebook.put(note.getId(), note);
+	    result = new NoteWithText(note.getId(), note.getAuthor(), note.getText());
+	}
+	return result;
+    }
+
+    @Override
+    public void deleteNote(String noteID) {
+	notebook.remove(noteID);
+    }
 
 }

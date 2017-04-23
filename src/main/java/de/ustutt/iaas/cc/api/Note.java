@@ -2,32 +2,33 @@ package de.ustutt.iaas.cc.api;
 
 public class Note {
 
-	private String id;
-	private String author;
-	private String text;
+    private String id;
+    private String author;
 
-	public String getId() {
-		return id;
-	}
+    public Note() {
+	super();
+    }
 
-	public void setId(String id) {
-		this.id = id;
-	}
+    public Note(String id, String author) {
+	super();
+	this.id = id;
+	this.author = author;
+    }
 
-	public String getAuthor() {
-		return author;
-	}
+    public String getId() {
+	return id;
+    }
 
-	public void setAuthor(String author) {
-		this.author = author;
-	}
+    public void setId(String id) {
+	this.id = id;
+    }
 
-	public String getText() {
-		return text;
-	}
+    public String getAuthor() {
+	return author;
+    }
 
-	public void setText(String text) {
-		this.text = text;
-	}
+    public void setAuthor(String author) {
+	this.author = author;
+    }
 
 }
