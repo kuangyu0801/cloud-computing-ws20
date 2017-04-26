@@ -57,6 +57,11 @@
 			<artifactId>dropwizard-assets</artifactId>
 		</dependency>
 
+		<!-- accessing external REST services -->
+		<dependency>
+			<groupId>io.dropwizard</groupId>
+			<artifactId>dropwizard-client</artifactId>
+		</dependency>
 	</dependencies>
 
 	<build>
