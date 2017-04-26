@@ -20,4 +20,23 @@ Monitoring API (Metrics, Health Checks, ...)
 `http://localhost:8081`
 
 ## How to configure the notebook application
-All configuration is done by editing the `config.yml` file. 
+All configuration is done by editing the `config.yml` file.
+
+The application supports running in different modes. Currently the following modes are supported:
+
+#### Mode A
+
+all-in-one, no persistence, no external dependencies  
+
+```
+mode: A
+```
+
+#### Mode B
+
+two components, no persistence, external text processor service  
+
+```
+mode: B
+textProcessorResource: http://localhost:8082/api
+```
