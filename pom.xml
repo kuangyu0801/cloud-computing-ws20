@@ -58,6 +58,13 @@
 			<artifactId>dropwizard-assets</artifactId>
 		</dependency>
 
+		<!-- support for freemarker templates in config.yml -->
+		<dependency>
+			<groupId>de.thomaskrille</groupId>
+			<artifactId>dropwizard-template-config</artifactId>
+			<version>1.5.0</version>
+		</dependency>
+
 		<!-- client for accessing external REST services -->
 		<dependency>
 			<groupId>io.dropwizard</groupId>

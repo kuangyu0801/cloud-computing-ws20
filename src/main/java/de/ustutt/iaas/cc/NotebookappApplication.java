@@ -9,6 +9,10 @@ import org.skife.jdbi.v2.DBI;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.google.common.base.Charsets;
+
+import de.thomaskrille.dropwizard_template_config.TemplateConfigBundle;
+import de.thomaskrille.dropwizard_template_config.TemplateConfigBundleConfiguration;
 import de.ustutt.iaas.cc.core.DatabaseNotebookDAO;
 import de.ustutt.iaas.cc.core.INotebookDAO;
 import de.ustutt.iaas.cc.core.INotesDB;
@@ -63,6 +67,10 @@ public class NotebookappApplication extends Application<NotebookappConfiguration
 		return configuration.getDataSourceFactory();
 	    }
 	});
+	// freemaker templates in config.yml
+	bootstrap.addBundle(new TemplateConfigBundle(new TemplateConfigBundleConfiguration().charset(Charsets.UTF_8)
+		.outputPath("config_generated.yml")
+		.addCustomProvider(new PropertiesFileTemplateConfigVariablesProvider("db.properties", "dbprops"))));
     }
 
     @Override

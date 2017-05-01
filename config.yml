@@ -1,3 +1,7 @@
+# The configuration supports freemarker template:
+# ${PORT!8080}
+# -> Uses the value of the PORT environment variable. If the variable is not set, the 8080 is used as default.
+
 #------------------------------------------------------------
 # General Server Configuration 
 #------------------------------------------------------------
@@ -8,7 +12,7 @@ server:
   rootPath: /api/*
   applicationConnectors:
     - type: http
-      port: 8080
+      port: ${PORT!8080}
   adminConnectors:
     - type: http
       port: 8081
@@ -46,10 +50,10 @@ database:
   driverClass: com.mysql.jdbc.Driver
   # the username
   # - H2 default root: sa
-  user: ADD-HERE
+  user: ${dbprops.user!}
   # the password
   # - H2 default root: empty
-  password: ADD-HERE
+  password: ${dbprops.password!}
   # the JDBC URL
   # - H2
   #   - http://www.h2database.com/html/faq.html#database_files
