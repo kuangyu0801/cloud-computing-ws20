@@ -18,6 +18,8 @@ logging:
   level: INFO
   loggers:
     de.ustutt.iaas.cc: DEBUG
+    # shows SQL statements
+    #org.skife.jdbi: TRACE
     # shows error messages when JSON parsing fails
     #io.dropwizard.jersey.jackson: DEBUG
   appenders:
@@ -36,6 +38,38 @@ logging:
 swagger:
   resourcePackage: de.ustutt.iaas.cc.resources
 
+# database configuration for file-based H2 database
+database:
+  # the name of your JDBC driver
+  driverClass: org.h2.Driver
+  # the username (default root: sa)
+  user: sa
+  # the password (default empty)
+  password: 
+  # the JDBC URL
+  # http://www.h2database.com/html/faq.html#database_files
+  # uses (or creates) a database file in the directory where the application is started
+  url: jdbc:h2:file:./NotesDB
+  # any properties specific to your JDBC driver:
+  properties:
+    charSet: UTF-8
+  # the maximum amount of time to wait on an empty pool before throwing an exception
+  maxWaitForConnection: 1s
+  # the SQL query to run when validating a connection's liveness
+  validationQuery: "/* DB Health Check */ SELECT 17 FROM NOTES"
+  # the timeout before a connection validation queries fail
+  validationQueryTimeout: 3s
+  # the minimum number of connections to keep open
+  minSize: 8
+  # the maximum number of connections to keep open
+  maxSize: 32
+  # whether or not idle connections should be validated
+  checkConnectionWhileIdle: false
+  # the amount of time to sleep between runs of the idle connection validation, abandoned cleaner and idle pool resizing
+  evictionInterval: 10s
+  # the minimum amount of time an connection must sit idle in the pool before it is eligible for eviction
+  minIdleTime: 1 minute
+
 #------------------------------------------------------------
 # Notebook App Configuration 
 #------------------------------------------------------------
@@ -48,3 +82,9 @@ textProcessor:
   mode: local
   # endpoint of text processor resource, required for mode "single"
   textProcessorResource: http://localhost:8082/api
+
+notesDB:
+  # tmp, jdbc
+  # tmp = non-persistent in-memory
+  # jdbc requires JDBC database configuration (http://www.dropwizard.io/1.1.0/docs/manual/jdbi.html)
+  mode: jdbc

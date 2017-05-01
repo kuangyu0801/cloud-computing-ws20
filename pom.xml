@@ -50,7 +50,7 @@
 			<artifactId>dropwizard-swagger</artifactId>
 			<version>${dropwizard-swagger.version}</version>
 		</dependency>
-		
+
 		<!-- static asset serving, required for UI -->
 		<dependency>
 			<groupId>io.dropwizard</groupId>
@@ -61,6 +61,18 @@
 		<dependency>
 			<groupId>io.dropwizard</groupId>
 			<artifactId>dropwizard-client</artifactId>
+		</dependency>
+
+		<!-- DB access -->
+		<dependency>
+			<groupId>io.dropwizard</groupId>
+			<artifactId>dropwizard-jdbi</artifactId>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/com.h2database/h2 -->
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<version>1.4.195</version>
 		</dependency>
 	</dependencies>
 

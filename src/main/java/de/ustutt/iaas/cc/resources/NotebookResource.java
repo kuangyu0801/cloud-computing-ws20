@@ -12,6 +12,9 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.codahale.metrics.annotation.Timed;
 
 import de.ustutt.iaas.cc.api.Note;
@@ -29,6 +32,8 @@ import io.swagger.annotations.Api;
 @Path("")
 @Api(value = "Notebook")
 public class NotebookResource {
+
+    private final static Logger logger = LoggerFactory.getLogger(NotebookResource.class);
 
     // DAO, used for data access
     private final INotebookDAO dao;
@@ -54,10 +59,14 @@ public class NotebookResource {
 	if (note != null) {
 	    // create note
 	    NoteWithText result = dao.createOrUpdateNote(note);
-	    // process its text
-	    result.setText(processor.process(result.getText()));
-	    // return note with processed text
-	    return result;
+	    if (result != null) {
+		// process its text
+		result.setText(processor.process(result.getText()));
+		// return note with processed text
+		return result;
+	    } else {
+		logger.warn("Error creating or updating note {} ({})", note.getId(), note);
+	    }
 	}
 	return null;
     }
