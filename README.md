@@ -76,7 +76,7 @@ user = ...
 password = ...
 ```
 
-Using jdbc mode requires a JDBC database configuration as described in e.g. [http://www.dropwizard.io/1.1.0/docs/manual/jdbi.html](http://www.dropwizard.io/1.1.0/docs/manual/jdbi.html). The `config.yml` file already contains such a configuration for using a [file-based H2 database](http://www.h2database.com/html/features.html#embedded_databases).
+Using jdbc mode requires a JDBC database configuration as described in e.g. [http://www.dropwizard.io/1.1.0/docs/manual/jdbi.html](http://www.dropwizard.io/1.1.0/docs/manual/jdbi.html). The `config.yml` file already contains such a configuration for using a [file-based H2 database](http://www.h2database.com/html/features.html#embedded_databases) or a MySQL database (tested with AWS RDS).
 
 In jdbc mode the application supports several commands for creating and managing the database (see also [http://www.dropwizard.io/1.1.0/docs/manual/migrations.html](http://www.dropwizard.io/1.1.0/docs/manual/migrations.html)):
 
