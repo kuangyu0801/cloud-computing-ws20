@@ -43,10 +43,8 @@ swagger:
 # sets the ID of this service instance, optional
 #serviceInstanceID: service 1
 
-# service mode
-# A = all-in-one, no persistence
-# B = two components, external text processor, no persistence
-mode: B
-
-# endpoint of text processor resource, required for mode B
-textProcessorResource: http://localhost:8082/api
+textProcessor:
+  # local, remoteSingle 
+  mode: local
+  # endpoint of text processor resource, required for mode "single"
+  textProcessorResource: http://localhost:8082/api

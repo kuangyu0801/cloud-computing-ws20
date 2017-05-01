@@ -52,7 +52,7 @@ public class NotebookappApplication extends Application<NotebookappConfiguration
     @Override
     public void run(final NotebookappConfiguration configuration, final Environment environment) {
 	// get service instance ID from config file
-	myID = configuration.getServiceInstanceID();
+	myID = configuration.serviceInstanceID;
 	// if not set, generate random service instance ID
 	if (StringUtils.isBlank(myID)) {
 	    logger.debug("setting random service instance ID");
@@ -60,26 +60,25 @@ public class NotebookappApplication extends Application<NotebookappConfiguration
 	}
 	logger.info("Service Instance ID is: " + myID);
 
-	// check configured service mode
+	// apply data storage configuration
+	INotebookDAO dao = new SimpleNotebookDAO();
+	
+	// apply text processor configuration
 	ITextProcessor tp = null;
-	INotebookDAO dao = null;
-	switch (configuration.getMode()) {
-	case A:
-	    logger.debug("Mode A");
+	switch (configuration.textProcessorConfiguration.mode) {
+	case local:
+	    logger.info("Using local text processor");
 	    tp = new LocalTextProcessor(myID);
-	    dao = new SimpleNotebookDAO();
 	    break;
-	case B:
-	    logger.debug("Mode B");
+	case remoteSingle:
+	    logger.info("Using remote text processor at {}", configuration.textProcessorConfiguration.textProcessorResource);
 	    final Client client = new JerseyClientBuilder(environment)
-		    .using(configuration.getJerseyClientConfiguration()).build(getName());
-	    tp = new RemoteTextProcessor(configuration.getTextProcessorResource(), client);
-	    dao = new SimpleNotebookDAO();
+	    .using(configuration.getJerseyClientConfiguration()).build(getName());
+	    tp = new RemoteTextProcessor(configuration.textProcessorConfiguration.textProcessorResource, client);
 	    break;
 	default:
-	    logger.warn("Unknown or empty mode ({}), defaulting to A", configuration.getMode());
+	    logger.warn("Unknown or empty text processor mode ({}), defaulting to local", configuration.textProcessorConfiguration.mode);
 	    tp = new LocalTextProcessor(myID);
-	    dao = new SimpleNotebookDAO();
 	    break;
 	}
 

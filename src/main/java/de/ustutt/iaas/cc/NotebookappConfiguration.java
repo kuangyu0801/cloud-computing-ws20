@@ -14,43 +14,6 @@ public class NotebookappConfiguration extends Configuration {
     @JsonProperty("swagger")
     public SwaggerBundleConfiguration swaggerBundleConfiguration;
 
-    private String serviceInstanceID;
-
-    @JsonProperty("serviceInstanceID")
-    public String getServiceInstanceID() {
-	return serviceInstanceID;
-    }
-
-    public void setServiceInstanceID(String serviceInstanceID) {
-	this.serviceInstanceID = serviceInstanceID;
-    }
-
-    public static enum Mode {
-	A, B
-    };
-
-    private Mode mode;
-
-    @JsonProperty("mode")
-    @NotNull
-    public Mode getMode() {
-	return mode;
-    }
-
-    public void setMode(Mode mode) {
-	this.mode = mode;
-    }
-
-    private String textProcessorResource;
-
-    public String getTextProcessorResource() {
-	return textProcessorResource;
-    }
-
-    public void setTextProcessorResource(String textProcessorResource) {
-	this.textProcessorResource = textProcessorResource;
-    }
-
     @Valid
     @NotNull
     private JerseyClientConfiguration jerseyClient = new JerseyClientConfiguration();
@@ -59,5 +22,12 @@ public class NotebookappConfiguration extends Configuration {
     public JerseyClientConfiguration getJerseyClientConfiguration() {
 	return jerseyClient;
     }
+
+    @JsonProperty("serviceInstanceID")
+    public String serviceInstanceID;
+
+    @JsonProperty("textProcessor")
+    @NotNull
+    public TextProcessorConfiguration textProcessorConfiguration;
 
 }
