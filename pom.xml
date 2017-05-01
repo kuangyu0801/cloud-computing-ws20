@@ -68,11 +68,14 @@
 			<groupId>io.dropwizard</groupId>
 			<artifactId>dropwizard-jdbi</artifactId>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/com.h2database/h2 -->
+		<!-- H2 database -->
 		<dependency>
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
-			<version>1.4.195</version>
+		</dependency>
+		<dependency>
+			<groupId>io.dropwizard</groupId>
+			<artifactId>dropwizard-migrations</artifactId>
 		</dependency>
 	</dependencies>
 

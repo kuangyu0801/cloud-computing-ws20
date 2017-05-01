@@ -20,8 +20,10 @@ import de.ustutt.iaas.cc.resources.NotebookResource;
 import io.dropwizard.Application;
 import io.dropwizard.assets.AssetsBundle;
 import io.dropwizard.client.JerseyClientBuilder;
+import io.dropwizard.db.DataSourceFactory;
 import io.dropwizard.jdbi.DBIFactory;
 import io.dropwizard.jdbi.bundles.DBIExceptionsBundle;
+import io.dropwizard.migrations.MigrationsBundle;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
 import io.federecio.dropwizard.swagger.SwaggerBundle;
@@ -52,8 +54,15 @@ public class NotebookappApplication extends Application<NotebookappConfiguration
 		return configuration.swaggerBundleConfiguration;
 	    }
 	});
-	// unwrapping of SQL and DBI database exceptions 
+	// unwrapping of SQL and DBI database exceptions
 	bootstrap.addBundle(new DBIExceptionsBundle());
+	// DB migrations
+	bootstrap.addBundle(new MigrationsBundle<NotebookappConfiguration>() {
+	    @Override
+	    public DataSourceFactory getDataSourceFactory(NotebookappConfiguration configuration) {
+		return configuration.getDataSourceFactory();
+	    }
+	});
     }
 
     @Override
