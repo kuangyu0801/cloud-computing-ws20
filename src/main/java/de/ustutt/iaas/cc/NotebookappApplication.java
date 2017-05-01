@@ -86,7 +86,7 @@ public class NotebookappApplication extends Application<NotebookappConfiguration
 	case jdbc:
 	    logger.info("Using JDBC notes storage ({})", configuration.getDataSourceFactory().getUrl());
 	    final DBIFactory factory = new DBIFactory();
-	    final DBI jdbi = factory.build(environment, configuration.getDataSourceFactory(), "h2local");
+	    final DBI jdbi = factory.build(environment, configuration.getDataSourceFactory(), "jdbi");
 	    final INotesDB dbAccess = jdbi.onDemand(INotesDB.class);
 	    dao = new DatabaseNotebookDAO(dbAccess);
 	    break;
