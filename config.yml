@@ -101,4 +101,4 @@ notesDB:
   # tmp, jdbc
   # tmp = non-persistent in-memory
   # jdbc requires JDBC database configuration (http://www.dropwizard.io/1.1.0/docs/manual/jdbi.html)
-  mode: jdbc
+  mode: tmp
