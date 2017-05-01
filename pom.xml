@@ -39,6 +39,7 @@
 	</dependencyManagement>
 
 	<dependencies>
+		<!-- Dropwizard (http://www.dropwizard.io) -->
 		<dependency>
 			<groupId>io.dropwizard</groupId>
 			<artifactId>dropwizard-core</artifactId>
@@ -57,26 +58,36 @@
 			<artifactId>dropwizard-assets</artifactId>
 		</dependency>
 
-		<!-- accessing external REST services -->
+		<!-- client for accessing external REST services -->
 		<dependency>
 			<groupId>io.dropwizard</groupId>
 			<artifactId>dropwizard-client</artifactId>
 		</dependency>
 
-		<!-- DB access -->
+		<!-- DB access using JDBI (http://jdbi.org/) -->
 		<dependency>
 			<groupId>io.dropwizard</groupId>
 			<artifactId>dropwizard-jdbi</artifactId>
 		</dependency>
-		<!-- H2 database -->
-		<dependency>
-			<groupId>com.h2database</groupId>
-			<artifactId>h2</artifactId>
-		</dependency>
+		<!-- DB migrations (https://www.liquibase.org/) -->
 		<dependency>
 			<groupId>io.dropwizard</groupId>
 			<artifactId>dropwizard-migrations</artifactId>
 		</dependency>
+		<!-- H2 database support -->
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+		</dependency>
+		<!-- MySQL database support -->
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>5.1.41</version>
+			<!-- note: from version 6 on, a different driver class is required and 
+				the current migrations will not work -->
+		</dependency>
+
 	</dependencies>
 
 	<build>

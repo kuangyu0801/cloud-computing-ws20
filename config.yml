@@ -41,15 +41,22 @@ swagger:
 # database configuration for file-based H2 database
 database:
   # the name of your JDBC driver
-  driverClass: org.h2.Driver
-  # the username (default root: sa)
-  user: sa
-  # the password (default empty)
-  password: 
+  # - H2: org.h2.Driver 
+  # - MySQL: com.mysql.jdbc.Driver
+  driverClass: com.mysql.jdbc.Driver
+  # the username
+  # - H2 default root: sa
+  user: ADD-HERE
+  # the password
+  # - H2 default root: empty
+  password: ADD-HERE
   # the JDBC URL
-  # http://www.h2database.com/html/faq.html#database_files
-  # uses (or creates) a database file in the directory where the application is started
-  url: jdbc:h2:file:./NotesDB
+  # - H2
+  #   - http://www.h2database.com/html/faq.html#database_files
+  #   - uses (or creates) a database file in the directory where the application is started
+  # - MySQL
+  #   - jdbc:mysql://notesdbtest.cmgbepohg2tp.eu-west-1.rds.amazonaws.com:3306/NotesDB
+  url: jdbc:mysql://notesdbtest.cmgbepohg2tp.eu-west-1.rds.amazonaws.com:3306/NotesDB
   # any properties specific to your JDBC driver:
   properties:
     charSet: UTF-8
