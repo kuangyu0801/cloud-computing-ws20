@@ -12,7 +12,8 @@ import de.ustutt.iaas.cc.api.Note;
 import de.ustutt.iaas.cc.api.NoteWithText;
 
 /**
- * http://jdbi.org/sql_object_api_queries/ <br/>
+ * http://jdbi.org/sql_object_api_queries/
+ * <p>
  * http://jdbi.org/sql_object_api_dml/
  * 
  * @author hauptfn
