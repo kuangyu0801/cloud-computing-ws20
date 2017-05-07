@@ -6,9 +6,17 @@ public class TextProcessorConfiguration {
 	local, remoteSingle, queue
     };
 
+    public static enum MOM {
+	SQS, ActiveMQ
+    };
+
     public Mode mode;
 
     public String textProcessorResource;
+    
+    public MOM mom;
+    
+    public String activeMQurl;
     
     public String requestQueueName;
     

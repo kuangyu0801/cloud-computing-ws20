@@ -102,6 +102,12 @@
 			<version>1.0.2</version>
 			<type>jar</type>
 		</dependency>
+		<!-- ActiveMQ -->
+		<dependency>
+			<groupId>org.apache.activemq</groupId>
+			<artifactId>activemq-core</artifactId>
+			<version>5.7.0</version>
+		</dependency>
 
 	</dependencies>
 

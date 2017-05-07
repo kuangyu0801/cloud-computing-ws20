@@ -124,8 +124,7 @@ public class NotebookappApplication extends Application<NotebookappConfiguration
 	    logger.info("Using queue text processor reading from {} and writing to {}",
 		    configuration.textProcessorConfiguration.requestQueueName,
 		    configuration.textProcessorConfiguration.responseQueueName);
-	    tp = new QueueTextProcessor(configuration.textProcessorConfiguration.requestQueueName,
-		    configuration.textProcessorConfiguration.responseQueueName);
+	    tp = new QueueTextProcessor(configuration.textProcessorConfiguration);
 	    break;
 	default:
 	    logger.warn("Unknown or empty text processor mode ({}), defaulting to local",
