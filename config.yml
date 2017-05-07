@@ -97,9 +97,9 @@ textProcessor:
   # endpoint of text processor resource, required for mode "single"
   textProcessorResource: http://localhost:8082/api
   # request queue, required for mode "queue"
-  requestQueueName: tp-requests
+  requestQueueName: TextProcessorRequests
   # response queue, required for mode "queue"
-  responseQueueName: tp-responses
+  responseQueueName: TextProcessorResponses
 
 notesDB:
   # tmp, jdbc
