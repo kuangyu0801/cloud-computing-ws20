@@ -92,10 +92,14 @@ database:
 #serviceInstanceID: service 1
 
 textProcessor:
-  # local, remoteSingle 
-  mode: local
+  # local, remoteSingle, queue 
+  mode: queue
   # endpoint of text processor resource, required for mode "single"
   textProcessorResource: http://localhost:8082/api
+  # request queue, required for mode "queue"
+  requestQueueName: tp-requests
+  # response queue, required for mode "queue"
+  responseQueueName: tp-responses
 
 notesDB:
   # tmp, jdbc
