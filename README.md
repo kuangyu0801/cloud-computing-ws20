@@ -50,6 +50,36 @@ textProcessor:
   textProcessorResource: http://localhost:8082/api
 ```
 
+#### queue
+
+arbitrary amount of remote text processors load-balanced using queues, requires names of request and response queue
+
+When using ActiveMQ:
+
+```
+textProcessor:
+  mom: ActiveMQ
+  activeMQurl: tcp://localhost:61616
+  requestQueueName: TextProcessorRequests
+  responseQueueName: TextProcessorResponses
+```
+
+When using AWS SQS:
+
+```
+textProcessor:
+  mom: SQS
+  requestQueueName: TextProcessorRequests
+  responseQueueName: TextProcessorResponses
+```
+
+For AWS SQS, in addition to the `config.yml` file a properties file named `aws.properties` has to be present containing credentials for AWS as follows:
+  
+```
+accessKey = ...
+secretKey = ...
+```
+
 ### Notes Database
 
 #### tmp
