@@ -80,8 +80,8 @@ public class QueueTextProcessor implements ITextProcessor {
 		break;
 	    }
 	    // create sender and receiver
-	    sender = session.createSender(responseQueue);
-	    receiver = session.createReceiver(requestQueue);
+	    sender = session.createSender(requestQueue);
+	    receiver = session.createReceiver(responseQueue);
 	    // start connection (!)
 	    connection.start();
 	} catch (NamingException e) {
