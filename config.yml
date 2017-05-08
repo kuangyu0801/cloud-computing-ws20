@@ -92,10 +92,18 @@ database:
 #serviceInstanceID: service 1
 
 textProcessor:
-  # local, remoteSingle 
+  # local, remoteSingle, queue 
   mode: local
   # endpoint of text processor resource, required for mode "single"
   textProcessorResource: http://localhost:8082/api
+  # SQS, ActiveMQ
+  mom: ActiveMQ
+  # only for ActiveMQ
+  activeMQurl: tcp://localhost:61616
+  # request queue, required for mode "queue"
+  requestQueueName: TextProcessorRequests
+  # response queue, required for mode "queue"
+  responseQueueName: TextProcessorResponses
 
 notesDB:
   # tmp, jdbc

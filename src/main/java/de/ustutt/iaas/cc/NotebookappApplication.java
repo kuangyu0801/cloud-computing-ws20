@@ -18,6 +18,7 @@ import de.ustutt.iaas.cc.core.INotebookDAO;
 import de.ustutt.iaas.cc.core.INotesDB;
 import de.ustutt.iaas.cc.core.ITextProcessor;
 import de.ustutt.iaas.cc.core.LocalTextProcessor;
+import de.ustutt.iaas.cc.core.QueueTextProcessor;
 import de.ustutt.iaas.cc.core.RemoteTextProcessor;
 import de.ustutt.iaas.cc.core.SimpleNotebookDAO;
 import de.ustutt.iaas.cc.resources.NotebookResource;
@@ -118,6 +119,12 @@ public class NotebookappApplication extends Application<NotebookappConfiguration
 	    final Client client = new JerseyClientBuilder(environment)
 		    .using(configuration.getJerseyClientConfiguration()).build(getName());
 	    tp = new RemoteTextProcessor(configuration.textProcessorConfiguration.textProcessorResource, client);
+	    break;
+	case queue:
+	    logger.info("Using queue text processor reading from {} and writing to {}",
+		    configuration.textProcessorConfiguration.requestQueueName,
+		    configuration.textProcessorConfiguration.responseQueueName);
+	    tp = new QueueTextProcessor(configuration.textProcessorConfiguration);
 	    break;
 	default:
 	    logger.warn("Unknown or empty text processor mode ({}), defaulting to local",
