@@ -1,9 +1,11 @@
+# <#noparse>
 # The configuration supports freemarker template:
 # ${PORT!8080}
 # -> Uses the value of the PORT environment variable. If the variable is not set, the 8080 is used as default.
 # ${dbprops.user!root}
 # -> Uses the value of the "user" property from the "db.properties" file. If the variable is not set, "root" is used as default.
 #    ("dbprops" refers to "db.properties")
+# </#noparse> (-> tells freemarker to ignore all freemarker expression in the comment above)
 
 #------------------------------------------------------------
 # General Server Configuration 
