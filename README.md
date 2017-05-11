@@ -6,7 +6,9 @@
 2. Start application with `java -jar target/notebookapp-0.1.0.jar server config.yml`
 3. To check that your application is running enter url `http://localhost:8080`
 
-When using a database for storing the notes (see below for details on configuration) the database has to be setup before running the application the first time using the following command:   
+When using AWS (e.g. for queuing, see below for details on configuration) you have to provide your API credentials in a file named `aws.properties`. You may use `aws.properties.example` for that (rename and add your data).  
+
+When using a database for storing the notes (see below for details on configuration) you have to provide your database credentials (username and password) in a file named `db.properties`. You may use `db.properties.example` for that (rename and add your data).In addition, the database has to be initialized (create tables) before running the application the first time using the following command:   
 ```
 java -jar target/notebookapp-0.1.0.jar db migrate config.yml  
 ```
@@ -80,6 +82,8 @@ accessKey = ...
 secretKey = ...
 ```
 
+The `aws.properties` file has to be placed in the same location as the `config.yml` file.
+
 ### Notes Database
 
 #### tmp
@@ -105,6 +109,8 @@ In addition to the `config.yml` file a properties file named `db.properties` has
 user = ...
 password = ...
 ```
+
+The `db.properties` file has to be placed in the same location as the `config.yml` file.
 
 Using jdbc mode requires a JDBC database configuration as described in e.g. [http://www.dropwizard.io/1.1.0/docs/manual/jdbi.html](http://www.dropwizard.io/1.1.0/docs/manual/jdbi.html). The `config.yml` file already contains such a configuration for using a [file-based H2 database](http://www.h2database.com/html/features.html#embedded_databases) or a MySQL database (tested with AWS RDS).
 
