@@ -6,9 +6,13 @@
 2. Start application with `java -jar target/notebookapp-0.1.0.jar server config.yml`
 3. To check that your application is running enter url `http://localhost:8080`
 
-When using AWS (e.g. for queuing, see below for details on configuration) you have to provide your API credentials in a file named `aws.properties`. You may use `aws.properties.example` for that (rename and add your data).  
+When using AWS (e.g. for queuing, see below for details on configuration) you have to provide your API credentials in a file named `aws.properties`. You may use `aws.properties.example` as a template.  
+__Note: Do not rename__ `aws.properties.example` __to__ `aws.properties` __but rather create a new file named__ `aws.properties` __instead.__  
+Otherwise, Git will no longer ignore the file, possibly resulting in your AWS credentials being committed and pushed and available to everyone.  
 
-When using a database for storing the notes (see below for details on configuration) you have to provide your database credentials (username and password) in a file named `db.properties`. You may use `db.properties.example` for that (rename and add your data). In addition, the database has to be initialized (create tables) before running the application the first time using the following command:   
+When using a database for storing the notes (see below for details on configuration) you have to provide your database credentials (username and password) in a file named `db.properties`. You may use `db.properties.example` as a template.  
+__Note: Do not rename__ `db.properties.example` __to__ `db.properties` __but rather create a new file named__ `db.properties` __instead.__  
+Otherwise, Git will no longer ignore the file, possibly resulting in your database credentials being committed and pushed and available to everyone. In addition, the database has to be initialized (create tables) before running the application the first time using the following command:   
 ```
 java -jar target/notebookapp-0.1.0.jar db migrate config.yml  
 ```
