@@ -1,6 +1,6 @@
 #!/bin/sh
 ### BEGIN INIT INFO
-# Provides:
+# Provides: NotebookApp
 # Required-Start:    $remote_fs $syslog
 # Required-Stop:     $remote_fs $syslog
 # Default-Start:     2 3 4 5
@@ -9,8 +9,8 @@
 # Description:       Enable service provided by daemon.
 ### END INIT INFO
 
-dir=""
-cmd=""
+dir="/home/ubuntu"
+cmd="java -jar notebookapp-0.1.0.jar server config.yml"
 user=""
 
 name=`basename $0`
