@@ -1,7 +1,7 @@
 # <#noparse>
 # The configuration supports freemarker template:
 # ${PORT!8080}
-# -> Uses the value of the PORT environment variable. If the variable is not set, the 8080 is used as default.
+# -> Uses the value of the PORT environment variable. If the variable is not set, 8080 is used as default.
 # ${dbprops.user!root}
 # -> Uses the value of the "user" property from the "db.properties" file. If the variable is not set, "root" is used as default.
 #    ("dbprops" refers to "db.properties")
@@ -17,7 +17,7 @@ server:
   rootPath: /api/*
   applicationConnectors:
     - type: http
-      port: ${PORT!8080}
+      port: 80
   adminConnectors:
     - type: http
       port: 8081
@@ -65,7 +65,7 @@ database:
   #   - uses (or creates) a database file in the directory where the application is started
   # - MySQL
   #   - jdbc:mysql://notesdbtest.cmgbepohg2tp.eu-west-1.rds.amazonaws.com:3306/NotesDB
-  url: jdbc:mysql://notesdbtest.cmgbepohg2tp.eu-west-1.rds.amazonaws.com:3306/NotesDB
+  url: ${dbprops.url!}
   # any properties specific to your JDBC driver:
   properties:
     charSet: UTF-8
@@ -97,9 +97,9 @@ textProcessor:
   # local, remoteSingle, queue 
   mode: local
   # endpoint of text processor resource, required for mode "single"
-  textProcessorResource: http://localhost:8082/api
+  textProcessorResource: http://ec2-35-162-31-105.us-west-2.compute.amazonaws.com/api
   # SQS, ActiveMQ
-  mom: ActiveMQ
+  mom: SQS
   # only for ActiveMQ
   activeMQurl: tcp://localhost:61616
   # request queue, required for mode "queue"

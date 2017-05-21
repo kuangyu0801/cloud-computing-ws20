@@ -10,7 +10,7 @@
 ### END INIT INFO
 
 dir="/home/ubuntu"
-cmd="java -jar notebookapp-0.1.0.jar server config.yml"
+cmd="java -jar notebookapp-0.2.0.jar server config.yml"
 user=""
 
 name=`basename $0`
