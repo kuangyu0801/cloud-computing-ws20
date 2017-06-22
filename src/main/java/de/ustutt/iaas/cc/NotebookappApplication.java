@@ -111,7 +111,7 @@ public class NotebookappApplication extends Application<NotebookappConfiguration
 	switch (configuration.textProcessorConfiguration.mode) {
 	case local:
 	    logger.info("Using local text processor");
-	    tp = new LocalTextProcessor(myID);
+	    tp = new LocalTextProcessor("local-"+myID);
 	    break;
 	case remoteSingle:
 	    logger.info("Using remote text processor at {}",
@@ -129,7 +129,7 @@ public class NotebookappApplication extends Application<NotebookappConfiguration
 	default:
 	    logger.warn("Unknown or empty text processor mode ({}), defaulting to local",
 		    configuration.textProcessorConfiguration.mode);
-	    tp = new LocalTextProcessor(myID);
+	    tp = new LocalTextProcessor("local-"+myID);
 	    break;
 	}
 

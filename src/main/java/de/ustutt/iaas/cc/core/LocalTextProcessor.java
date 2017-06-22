@@ -25,7 +25,7 @@ public class LocalTextProcessor implements ITextProcessor {
 
     @Override
     public String process(String text) {
-	return "[processed by " + myID + "] - " + text;
+	return "[locally processed by " + myID + "] - " + text;
     }
 
 }
