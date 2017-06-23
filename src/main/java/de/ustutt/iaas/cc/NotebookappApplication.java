@@ -14,6 +14,7 @@ import com.google.common.base.Charsets;
 import de.thomaskrille.dropwizard_template_config.TemplateConfigBundle;
 import de.thomaskrille.dropwizard_template_config.TemplateConfigBundleConfiguration;
 import de.ustutt.iaas.cc.core.DatabaseNotebookDAO;
+import de.ustutt.iaas.cc.core.GoogleDatastoreNotebookDAO;
 import de.ustutt.iaas.cc.core.INotebookDAO;
 import de.ustutt.iaas.cc.core.INotesDB;
 import de.ustutt.iaas.cc.core.ITextProcessor;
@@ -98,6 +99,10 @@ public class NotebookappApplication extends Application<NotebookappConfiguration
 	    final DBI jdbi = factory.build(environment, configuration.getDataSourceFactory(), "jdbi");
 	    final INotesDB dbAccess = jdbi.onDemand(INotesDB.class);
 	    dao = new DatabaseNotebookDAO(dbAccess);
+	    break;
+	case gcds:
+	    logger.info("Using Google Cloud Datastore notes storage");
+	    dao = new GoogleDatastoreNotebookDAO();
 	    break;
 	default:
 	    logger.warn("Unknown or empty notes DB mode ({}), defaulting to tmp",

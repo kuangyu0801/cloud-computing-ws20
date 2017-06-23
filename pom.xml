@@ -109,6 +109,14 @@
 			<version>5.7.0</version>
 		</dependency>
 
+		<!-- Google Cloud Datastore -->
+		<dependency>
+			<groupId>com.google.cloud</groupId>
+			<artifactId>google-cloud-datastore</artifactId>
+			<version>1.0.1</version>
+		</dependency>
+
+
 	</dependencies>
 
 	<build>
