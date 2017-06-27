@@ -26,6 +26,7 @@ import de.ustutt.iaas.cc.resources.NotebookResource;
 import io.dropwizard.Application;
 import io.dropwizard.assets.AssetsBundle;
 import io.dropwizard.client.JerseyClientBuilder;
+import io.dropwizard.client.JerseyClientConfiguration;
 import io.dropwizard.db.DataSourceFactory;
 import io.dropwizard.jdbi.DBIFactory;
 import io.dropwizard.jdbi.bundles.DBIExceptionsBundle;
@@ -121,8 +122,10 @@ public class NotebookappApplication extends Application<NotebookappConfiguration
 	case remoteSingle:
 	    logger.info("Using remote text processor at {}",
 		    configuration.textProcessorConfiguration.textProcessorResource);
+	    JerseyClientConfiguration jcf = configuration.getJerseyClientConfiguration();
+	    jcf.setGzipEnabled(false);
 	    final Client client = new JerseyClientBuilder(environment)
-		    .using(configuration.getJerseyClientConfiguration()).build(getName());
+		    .using(jcf).build(getName());
 	    tp = new RemoteTextProcessor(configuration.textProcessorConfiguration.textProcessorResource, client);
 	    break;
 	case queue:
