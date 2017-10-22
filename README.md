@@ -2,11 +2,13 @@
 
 ## How to start the notebook application
 
-1. Run `mvn clean install` to build your application
-2. Start application with `java -jar target/notebookapp-0.2.0.jar server config.yml`
-3. To check that your application is running enter url `http://localhost`
+1. You need to have Java 8, Git, and Maven installed on your system
+2. Checkout the source code from GitHub 
+3. Run `mvn clean install` to build your application
+4. Start application with `java -jar target/notebookapp-0.2.0.jar server config-min.yml` (on some platforms, `sudo` is required, i.e. you have to run `sudo java -jar ...` instead
+5. To check that your application is running enter url `http://localhost`
 
-The default configuration has no external dependencies. It uses the internal text processor as well as the non-persistent in-memory storage. For details on the configuration please see below, section "How to configure the notebook application".
+The default configuration has no external dependencies. It uses the internal text processor as well as the non-persistent in-memory storage. For details on the configuration please have a look at the section "How to configure the notebook application" below.
 
 When using AWS (e.g. for queuing, see below for details on configuration) you have to provide your API credentials in a file named `aws.properties`. You may use `aws.properties.example` as a template.  
 __Note: Do not rename__ `aws.properties.example` __to__ `aws.properties` __but rather create a new file named__ `aws.properties` __instead.__  
