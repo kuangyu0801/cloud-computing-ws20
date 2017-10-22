@@ -95,11 +95,16 @@ public class NotebookappApplication extends Application<NotebookappConfiguration
 	    dao = new SimpleNotebookDAO();
 	    break;
 	case jdbc:
-	    logger.info("Using JDBC notes storage ({})", configuration.getDataSourceFactory().getUrl());
-	    final DBIFactory factory = new DBIFactory();
-	    final DBI jdbi = factory.build(environment, configuration.getDataSourceFactory(), "jdbi");
-	    final INotesDB dbAccess = jdbi.onDemand(INotesDB.class);
-	    dao = new DatabaseNotebookDAO(dbAccess);
+	    if (configuration.getDataSourceFactory() != null) {
+		logger.info("Using JDBC notes storage ({})", configuration.getDataSourceFactory().getUrl());
+		final DBIFactory factory = new DBIFactory();
+		final DBI jdbi = factory.build(environment, configuration.getDataSourceFactory(), "jdbi");
+		final INotesDB dbAccess = jdbi.onDemand(INotesDB.class);
+		dao = new DatabaseNotebookDAO(dbAccess);
+	    } else {
+		logger.warn("No JDBC configuration found, defaulting to tmp");
+		dao = new SimpleNotebookDAO();
+	    }
 	    break;
 	case gcds:
 	    logger.info("Using Google Cloud Datastore notes storage");

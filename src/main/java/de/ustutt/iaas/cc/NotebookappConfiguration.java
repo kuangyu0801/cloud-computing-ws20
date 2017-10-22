@@ -34,8 +34,7 @@ public class NotebookappConfiguration extends Configuration {
      * DATABASE
      */
     @Valid
-    @NotNull
-    private DataSourceFactory database = new DataSourceFactory();
+    private DataSourceFactory database;
 
     @JsonProperty("database")
     public void setDataSourceFactory(DataSourceFactory factory) {
