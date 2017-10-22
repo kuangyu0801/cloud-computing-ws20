@@ -1,5 +1,7 @@
 package de.ustutt.iaas.cc;
 
+import javax.validation.constraints.NotNull;
+
 public class TextProcessorConfiguration {
 
     public static enum Mode {
@@ -10,6 +12,7 @@ public class TextProcessorConfiguration {
 	SQS, ActiveMQ
     };
 
+    @NotNull
     public Mode mode;
 
     public String textProcessorResource;
