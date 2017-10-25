@@ -23,7 +23,7 @@ import de.ustutt.iaas.cc.api.Note;
 import de.ustutt.iaas.cc.api.NoteWithText;
 
 /**
- * Notes are stored as entities in Google Datastore (NoSQL).
+ * DAO implementation that stores notes as entities in Google Datastore (NoSQL).
  * 
  * @author hauptfn
  *
@@ -32,7 +32,7 @@ public class GoogleDatastoreNotebookDAO implements INotebookDAO {
 
     private final static Logger logger = LoggerFactory.getLogger(GoogleDatastoreNotebookDAO.class);
 
-    // TODO move to configuration
+    // TODO move to configuration file / class
     private final String projectID = "hauptfn-167617";
     private final String keyFilePath = "hauptfn-063896e58594_CloudDatastoreUser.json";
 
@@ -40,6 +40,7 @@ public class GoogleDatastoreNotebookDAO implements INotebookDAO {
 
     public GoogleDatastoreNotebookDAO() {
 	super();
+	// create datastore client
 	try {
 	    dsClient = DatastoreOptions.newBuilder().setProjectId(projectID)
 		    .setCredentials(ServiceAccountCredentials.fromStream(new FileInputStream(keyFilePath))).build()
@@ -90,8 +91,10 @@ public class GoogleDatastoreNotebookDAO implements INotebookDAO {
 	// build key for note (either generate new or use existing ID)
 	Key noteKey;
 	if (Strings.isNullOrEmpty(note.getId())) {
+	    // generate new key
 	    noteKey = dsClient.allocateId(dsClient.newKeyFactory().setKind("Note").newKey());
 	} else {
+	    // use given key
 	    noteKey = dsClient.newKeyFactory().setKind("Note").newKey(Long.parseLong(note.getId()));
 	}
 

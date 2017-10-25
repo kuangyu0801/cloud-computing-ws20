@@ -12,6 +12,9 @@ import java.util.Properties;
 import de.thomaskrille.dropwizard_template_config.TemplateConfigVariablesProvider;
 
 /**
+ * Reads properties from a properties file and provides them for use in
+ * Freemarker templates.
+ * <p>
  * Note: logging is not working yet as we are processing the config file
  * _before_ it is read (and the config file configures the loggers...)
  * 
@@ -20,7 +23,9 @@ import de.thomaskrille.dropwizard_template_config.TemplateConfigVariablesProvide
  */
 public class PropertiesFileTemplateConfigVariablesProvider implements TemplateConfigVariablesProvider {
 
+    // properties file to be read
     private final String propFilename;
+    // namespace under which the properties will be accessible in Freemarker
     private final String namespace;
 
     public PropertiesFileTemplateConfigVariablesProvider(String propFilename, String namespace) {
@@ -46,6 +51,7 @@ public class PropertiesFileTemplateConfigVariablesProvider implements TemplateCo
 	}
 	Map<String, String> result = new HashMap<String, String>();
 	for (String key : prop.stringPropertyNames()) {
+	    // TODO only for debugging, might contain sensitive data!
 	    System.out.println("Registering <" + key + "," + prop.getProperty(key) + "> for freemarker.");
 	    result.put(key, prop.getProperty(key));
 	}

@@ -12,6 +12,8 @@ import de.ustutt.iaas.cc.api.Note;
 import de.ustutt.iaas.cc.api.NoteWithText;
 
 /**
+ * Realizes SQL database access based on JDBI.
+ * <p>
  * http://jdbi.org/sql_object_api_queries/
  * <p>
  * http://jdbi.org/sql_object_api_dml/

@@ -79,7 +79,7 @@ public class SimpleNotebookDAO implements INotebookDAO {
 
     @Override
     public void deleteNote(String noteID) {
-	// remove not, if present
+	// remove note, if present
 	notebook.remove(noteID);
     }
 

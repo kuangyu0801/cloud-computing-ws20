@@ -6,6 +6,8 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 import javax.jms.JMSException;
 import javax.jms.Message;
@@ -33,6 +35,20 @@ import com.google.common.base.Strings;
 
 import de.ustutt.iaas.cc.TextProcessorConfiguration;
 
+/**
+ * A text processor that uses JMS to send text to a request queue and then waits
+ * for the processed text on a response queue. For each text processing request,
+ * a unique ID is generated that is later used to correlate responses to their
+ * original request.
+ * <p>
+ * The text processing is realized by (one or more) workers that read from the
+ * request queue and write to the response queue.
+ * <p>
+ * This implementation supports ActiveMQ as well as AWS SQS.
+ * 
+ * @author hauptfn
+ *
+ */
 public class QueueTextProcessor implements ITextProcessor {
 
     private final static Logger logger = LoggerFactory.getLogger(QueueTextProcessor.class);
@@ -43,9 +59,12 @@ public class QueueTextProcessor implements ITextProcessor {
 
     public QueueTextProcessor(TextProcessorConfiguration conf) {
 	super();
+	// initialize JMS stuff (connection to messaging system, sender, message
+	// listener, ...)
 	try {
 	    Context jndi = null;
 	    QueueConnectionFactory conFactory = null;
+	    // separated handling of ActiveMQ vs. AWS SQS
 	    switch (conf.mom) {
 	    case ActiveMQ:
 		// initialize JNDI context
@@ -80,6 +99,7 @@ public class QueueTextProcessor implements ITextProcessor {
 	    session = connection.createQueueSession(false, Session.AUTO_ACKNOWLEDGE);
 	    Queue requestQueue = null;
 	    Queue responseQueue = null;
+	    // separated handling of ActiveMQ vs. AWS SQS
 	    switch (conf.mom) {
 	    case ActiveMQ:
 		// lookup queue
@@ -107,7 +127,9 @@ public class QueueTextProcessor implements ITextProcessor {
 	}
     }
 
+    // all open requests, <request ID, future for result>
     private static ConcurrentMap<String, CompletableFuture<String>> work = new ConcurrentHashMap<String, CompletableFuture<String>>();
+    // message property used for request-response correlation
     private static final String ID_PROP = "id";
 
     @Override
@@ -118,6 +140,7 @@ public class QueueTextProcessor implements ITextProcessor {
 	CompletableFuture<String> cf = new CompletableFuture<String>();
 	work.put(id, cf);
 	try {
+	    // create and send text message
 	    Message msg = session.createTextMessage(text);
 	    msg.setStringProperty(ID_PROP, id);
 	    logger.debug("Sending message {}", msg.getStringProperty(ID_PROP));
@@ -126,20 +149,29 @@ public class QueueTextProcessor implements ITextProcessor {
 	    // TODO maybe remove future from work?
 	    e.printStackTrace();
 	}
-	// wait for result
+	// wait for result (i.e. for completion of future)
 	try {
-	    // blocking wait until future is completed
-	    String result = cf.get();
+	    // blocking wait (with timeout) until future is completed
+	    String result = cf.get(5, TimeUnit.SECONDS);
 	    return result;
 	} catch (InterruptedException e) {
 	    e.printStackTrace();
 	} catch (ExecutionException e) {
 	    e.printStackTrace();
+	} catch (TimeoutException e) {
+	    e.printStackTrace();
 	}
-	// in case of errors, return original (unprocessed) text
+	// in case of any error, return original (unprocessed) text
 	return text;
     }
 
+    /**
+     * A message listener that receives response messages from a queue and then
+     * completes the corresponding future.
+     * 
+     * @author hauptfn
+     *
+     */
     private static class ML implements MessageListener {
 
 	@Override
@@ -153,7 +185,7 @@ public class QueueTextProcessor implements ITextProcessor {
 			return;
 		    }
 		    logger.debug("Received message {}", id);
-		    
+
 		    // get corresponding future
 		    CompletableFuture<String> cf = work.get(id);
 		    if (cf == null) {
@@ -162,7 +194,7 @@ public class QueueTextProcessor implements ITextProcessor {
 		    }
 		    // complete future
 		    cf.complete(((TextMessage) message).getText());
-		    // remove from map
+		    // remove future from map
 		    work.remove(id);
 		} catch (JMSException e) {
 		    e.printStackTrace();

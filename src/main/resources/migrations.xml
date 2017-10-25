@@ -13,7 +13,7 @@
 		For H2, a definition without size (i.e. "varchar") results in a varchar column 
 		with maximum size. In MySQL, the size of varchar has to be explicitly set. 
 		In addition, the size of a row (including all columns) is limited to 65.535 
-		(but might differ depending on configuration...). -->
+		(but might differ depending on db configuration...). -->
 
 	<!-- initial table creation -->
 	<changeSet id="1" author="hauptfn">

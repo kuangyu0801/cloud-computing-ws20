@@ -8,6 +8,13 @@ import org.skife.jdbi.v2.tweak.ResultSetMapper;
 
 import de.ustutt.iaas.cc.api.Note;
 
+/**
+ * JDBI result mapper. Takes a SQL result set and maps the current row to a Note
+ * object.
+ * 
+ * @author hauptfn
+ *
+ */
 public class NoteMapper implements ResultSetMapper<Note> {
 
     @Override

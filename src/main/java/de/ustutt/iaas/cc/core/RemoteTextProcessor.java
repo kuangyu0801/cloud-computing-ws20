@@ -5,6 +5,12 @@ import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 
+/**
+ * A text processor that sends the text to a remote REST API for processing.
+ * 
+ * @author hauptfn
+ *
+ */
 public class RemoteTextProcessor implements ITextProcessor {
 
     private final WebTarget target;

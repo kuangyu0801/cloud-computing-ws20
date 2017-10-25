@@ -44,6 +44,7 @@ public class NotebookappApplication extends Application<NotebookappConfiguration
 	new NotebookappApplication().run(args);
     }
 
+    // ID of app instance
     private String myID;
 
     @Override
@@ -53,24 +54,24 @@ public class NotebookappApplication extends Application<NotebookappConfiguration
 
     @Override
     public void initialize(final Bootstrap<NotebookappConfiguration> bootstrap) {
-	// static assets (html, css, js, ...)
+	// enables access to static assets (html, css, js, ...)
 	bootstrap.addBundle(new AssetsBundle("/assets", "/", "index.html"));
-	// swagger UI
+	// enables swagger UI
 	bootstrap.addBundle(new SwaggerBundle<NotebookappConfiguration>() {
 	    protected SwaggerBundleConfiguration getSwaggerBundleConfiguration(NotebookappConfiguration configuration) {
 		return configuration.swaggerBundleConfiguration;
 	    }
 	});
-	// unwrapping of SQL and DBI database exceptions
+	// enables unwrapping of SQL and DBI database exceptions
 	bootstrap.addBundle(new DBIExceptionsBundle());
-	// DB migrations
+	// enables DB migrations (http://www.liquibase.org/)
 	bootstrap.addBundle(new MigrationsBundle<NotebookappConfiguration>() {
 	    @Override
 	    public DataSourceFactory getDataSourceFactory(NotebookappConfiguration configuration) {
 		return configuration.getDataSourceFactory();
 	    }
 	});
-	// freemaker templates in config.yml
+	// enables use of Freemaker templates in config.yml
 	bootstrap.addBundle(new TemplateConfigBundle(new TemplateConfigBundleConfiguration().charset(Charsets.UTF_8)
 		.outputPath("config_generated.yml")
 		.addCustomProvider(new PropertiesFileTemplateConfigVariablesProvider("db.properties", "dbprops"))));
