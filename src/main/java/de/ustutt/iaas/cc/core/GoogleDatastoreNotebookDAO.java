@@ -41,10 +41,8 @@ public class GoogleDatastoreNotebookDAO implements INotebookDAO {
     public GoogleDatastoreNotebookDAO() {
 	super();
 	try {
-	    dsClient = DatastoreOptions.newBuilder()
-		    .setProjectId(projectID)
-		    .setCredentials(ServiceAccountCredentials.fromStream(new FileInputStream(keyFilePath)))
-		    .build()
+	    dsClient = DatastoreOptions.newBuilder().setProjectId(projectID)
+		    .setCredentials(ServiceAccountCredentials.fromStream(new FileInputStream(keyFilePath))).build()
 		    .getService();
 	} catch (IOException e) {
 	    logger.error("Error creating client for Google Cloud Datastore.");
@@ -56,15 +54,13 @@ public class GoogleDatastoreNotebookDAO implements INotebookDAO {
     @Override
     public Set<Note> getNotes() {
 	Set<Note> result = new HashSet<Note>();
-	
+
 	// get all notes, but only id and author, not text
-	Query<ProjectionEntity> queryNotes = Query.newProjectionEntityQueryBuilder()
-		.setKind("Note")
-		.setProjection("author")
-		.build();
+	Query<ProjectionEntity> queryNotes = Query.newProjectionEntityQueryBuilder().setKind("Note")
+		.setProjection("author").build();
 	QueryResults<ProjectionEntity> notes = dsClient.run(queryNotes);
 	// process query results
-	while(notes.hasNext()) {
+	while (notes.hasNext()) {
 	    ProjectionEntity noteEntity = notes.next();
 	    result.add(new Note(Long.toString(noteEntity.getKey().getId()), noteEntity.getString("author")));
 	}
@@ -90,7 +86,7 @@ public class GoogleDatastoreNotebookDAO implements INotebookDAO {
     @Override
     public NoteWithText createOrUpdateNote(NoteWithText note) {
 	NoteWithText result = null;
-	
+
 	// build key for note (either generate new or use existing ID)
 	Key noteKey;
 	if (Strings.isNullOrEmpty(note.getId())) {
@@ -100,11 +96,8 @@ public class GoogleDatastoreNotebookDAO implements INotebookDAO {
 	}
 
 	// store the note (overwrites note with same ID, if already present)
-	Entity noteEntity = Entity.newBuilder(noteKey)
-		.set("author", note.getAuthor())
-		.set("text", note.getText())
-		.set("lastUpdate", Timestamp.now())
-		.build();
+	Entity noteEntity = Entity.newBuilder(noteKey).set("author", note.getAuthor()).set("text", note.getText())
+		.set("lastUpdate", Timestamp.now()).build();
 	noteEntity = dsClient.put(noteEntity);
 
 	// clone object to avoid side effects (modifications are only
