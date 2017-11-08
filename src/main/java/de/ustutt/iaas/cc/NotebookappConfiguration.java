@@ -16,18 +16,19 @@ public class NotebookappConfiguration extends Configuration {
      * SWAGGER
      */
     @JsonProperty("swagger")
+    @Valid
     public SwaggerBundleConfiguration swaggerBundleConfiguration;
 
     /**
      * JERSEY CLIENT
      */
-    @Valid
     @NotNull
+    @Valid
     private JerseyClientConfiguration jerseyClient = new JerseyClientConfiguration();
 
     @JsonProperty("jerseyClient")
     public JerseyClientConfiguration getJerseyClientConfiguration() {
-	return jerseyClient;
+    	return jerseyClient;
     }
 
     /**
@@ -37,13 +38,12 @@ public class NotebookappConfiguration extends Configuration {
     private DataSourceFactory database;
 
     @JsonProperty("database")
-    public void setDataSourceFactory(DataSourceFactory factory) {
-	this.database = factory;
+    public DataSourceFactory getDataSourceFactory() {
+    	return database;
     }
 
-    @JsonProperty("database")
-    public DataSourceFactory getDataSourceFactory() {
-	return database;
+    public void setDataSourceFactory(DataSourceFactory factory) {
+    	this.database = factory;
     }
 
     /**
@@ -54,10 +54,12 @@ public class NotebookappConfiguration extends Configuration {
 
     @JsonProperty("textProcessor")
     @NotNull
+    @Valid
     public TextProcessorConfiguration textProcessorConfiguration;
 
     @JsonProperty("notesDB")
     @NotNull
+    @Valid
     public NotesDatabaseConfiguration notesDatabaseConfiguration;
 
 }
