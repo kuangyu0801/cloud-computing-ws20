@@ -23,64 +23,64 @@ import de.ustutt.iaas.cc.api.NoteWithText;
  */
 public class SimpleNotebookDAO implements INotebookDAO {
 
-    private final static Logger logger = LoggerFactory.getLogger(SimpleNotebookDAO.class);
+	private final static Logger logger = LoggerFactory.getLogger(SimpleNotebookDAO.class);
 
-    // used for generating unique IDs
-    private final AtomicInteger idCounter;
+	// used for generating unique IDs
+	private final AtomicInteger idCounter;
 
-    // <note ID, note>
-    private ConcurrentMap<String, NoteWithText> notebook;
+	// <note ID, note>
+	private ConcurrentMap<String, NoteWithText> notebook;
 
-    public SimpleNotebookDAO() {
-	this.idCounter = new AtomicInteger();
-	this.notebook = new ConcurrentHashMap<String, NoteWithText>();
-    }
-
-    @Override
-    public Set<Note> getNotes() {
-	Set<Note> result = new HashSet<Note>();
-	// for each note in the internal storage, create a note without text
-	for (NoteWithText note : notebook.values()) {
-	    result.add(new Note(note.getId(), note.getAuthor()));
+	public SimpleNotebookDAO() {
+		this.idCounter = new AtomicInteger();
+		this.notebook = new ConcurrentHashMap<String, NoteWithText>();
 	}
-	return result;
-    }
 
-    @Override
-    public NoteWithText getNote(String noteID) {
-	NoteWithText result = null;
-	// get note
-	NoteWithText nwt = notebook.get(noteID);
-	if (nwt != null) {
-	    // clone object to avoid side effects (modifications are only
-	    // allowed using the createOrUpdateNote method)
-	    result = new NoteWithText(nwt.getId(), nwt.getAuthor(), nwt.getText());
+	@Override
+	public Set<Note> getNotes() {
+		Set<Note> result = new HashSet<Note>();
+		// for each note in the internal storage, create a note without text
+		for (NoteWithText note : notebook.values()) {
+			result.add(new Note(note.getId(), note.getAuthor()));
+		}
+		return result;
 	}
-	return result;
-    }
 
-    @Override
-    public NoteWithText createOrUpdateNote(NoteWithText note) {
-	NoteWithText result = null;
-	if (note != null) {
-	    // if not yet defined, generate and set the ID
-	    if (StringUtils.isBlank(note.getId())) {
-		note.setId(Integer.toString(idCounter.incrementAndGet()));
-		logger.debug("Generated ID for note {}.", note.getId());
-	    }
-	    // store the note (overwrites note with same ID, if already present)
-	    notebook.put(note.getId(), note);
-	    // clone object to avoid side effects (modifications are only
-	    // allowed using the createOrUpdateNote method)
-	    result = new NoteWithText(note.getId(), note.getAuthor(), note.getText());
+	@Override
+	public NoteWithText getNote(String noteID) {
+		NoteWithText result = null;
+		// get note
+		NoteWithText nwt = notebook.get(noteID);
+		if (nwt != null) {
+			// clone object to avoid side effects (modifications are only
+			// allowed using the createOrUpdateNote method)
+			result = new NoteWithText(nwt.getId(), nwt.getAuthor(), nwt.getText());
+		}
+		return result;
 	}
-	return result;
-    }
 
-    @Override
-    public void deleteNote(String noteID) {
-	// remove note, if present
-	notebook.remove(noteID);
-    }
+	@Override
+	public NoteWithText createOrUpdateNote(NoteWithText note) {
+		NoteWithText result = null;
+		if (note != null) {
+			// if not yet defined, generate and set the ID
+			if (StringUtils.isBlank(note.getId())) {
+				note.setId(Integer.toString(idCounter.incrementAndGet()));
+				logger.debug("Generated ID for note {}.", note.getId());
+			}
+			// store the note (overwrites note with same ID, if already present)
+			notebook.put(note.getId(), note);
+			// clone object to avoid side effects (modifications are only
+			// allowed using the createOrUpdateNote method)
+			result = new NoteWithText(note.getId(), note.getAuthor(), note.getText());
+		}
+		return result;
+	}
+
+	@Override
+	public void deleteNote(String noteID) {
+		// remove note, if present
+		notebook.remove(noteID);
+	}
 
 }

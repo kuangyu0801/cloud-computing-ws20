@@ -5,9 +5,9 @@
 	return $resource(notebookBase);
     });
     /**
-     * $scope.notes = array of notes (without text) shown in the table
-     * $scope.note = one note (with text) shown in the form (can be edited)
-     */
+	 * $scope.notes = array of notes (without text) shown in the table
+	 * $scope.note = one note (with text) shown in the form (can be edited)
+	 */
     app.controller('NotebookController', function($scope, $http) {
         $scope.notes = {};
     	$scope.reload = function() {

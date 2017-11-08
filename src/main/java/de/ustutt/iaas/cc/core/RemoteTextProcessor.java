@@ -13,18 +13,18 @@ import javax.ws.rs.core.MediaType;
  */
 public class RemoteTextProcessor implements ITextProcessor {
 
-    private final WebTarget target;
+	private final WebTarget target;
 
-    public RemoteTextProcessor(String textProcessorResource, Client client) {
-	super();
-	this.target = client.target(textProcessorResource);
-    }
+	public RemoteTextProcessor(String textProcessorResource, Client client) {
+		super();
+		this.target = client.target(textProcessorResource);
+	}
 
-    @Override
-    public String process(String text) {
-	String processed = target.request(MediaType.TEXT_PLAIN).post(Entity.entity(text, MediaType.TEXT_PLAIN),
-		String.class);
-	return processed;
-    }
+	@Override
+	public String process(String text) {
+		String processed = target.request(MediaType.TEXT_PLAIN).post(Entity.entity(text, MediaType.TEXT_PLAIN),
+				String.class);
+		return processed;
+	}
 
 }

@@ -48,7 +48,7 @@ swagger:
 serviceInstanceID: My first Notebook App
 
 textProcessor:
-  # local, remoteSingle, queue 
+  # local, remoteSingle, remoteMulti, queue 
   mode: local
 
 notesDB:

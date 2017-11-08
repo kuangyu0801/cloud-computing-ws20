@@ -12,52 +12,54 @@ import io.federecio.dropwizard.swagger.SwaggerBundleConfiguration;
 
 public class NotebookappConfiguration extends Configuration {
 
-    /**
-     * SWAGGER
-     */
-    @JsonProperty("swagger")
-    public SwaggerBundleConfiguration swaggerBundleConfiguration;
+	/**
+	 * SWAGGER
+	 */
+	@JsonProperty("swagger")
+	@Valid
+	public SwaggerBundleConfiguration swaggerBundleConfiguration;
 
-    /**
-     * JERSEY CLIENT
-     */
-    @Valid
-    @NotNull
-    private JerseyClientConfiguration jerseyClient = new JerseyClientConfiguration();
+	/**
+	 * JERSEY CLIENT
+	 */
+	@NotNull
+	@Valid
+	private JerseyClientConfiguration jerseyClient = new JerseyClientConfiguration();
 
-    @JsonProperty("jerseyClient")
-    public JerseyClientConfiguration getJerseyClientConfiguration() {
-	return jerseyClient;
-    }
+	@JsonProperty("jerseyClient")
+	public JerseyClientConfiguration getJerseyClientConfiguration() {
+		return jerseyClient;
+	}
 
-    /**
-     * DATABASE
-     */
-    @Valid
-    private DataSourceFactory database;
+	/**
+	 * DATABASE
+	 */
+	@Valid
+	private DataSourceFactory database;
 
-    @JsonProperty("database")
-    public void setDataSourceFactory(DataSourceFactory factory) {
-	this.database = factory;
-    }
+	@JsonProperty("database")
+	public DataSourceFactory getDataSourceFactory() {
+		return database;
+	}
 
-    @JsonProperty("database")
-    public DataSourceFactory getDataSourceFactory() {
-	return database;
-    }
+	public void setDataSourceFactory(DataSourceFactory factory) {
+		this.database = factory;
+	}
 
-    /**
-     * NOTEBOOK APPLICATION
-     */
-    @JsonProperty("serviceInstanceID")
-    public String serviceInstanceID;
+	/**
+	 * NOTEBOOK APPLICATION
+	 */
+	@JsonProperty("serviceInstanceID")
+	public String serviceInstanceID;
 
-    @JsonProperty("textProcessor")
-    @NotNull
-    public TextProcessorConfiguration textProcessorConfiguration;
+	@JsonProperty("textProcessor")
+	@NotNull
+	@Valid
+	public TextProcessorConfiguration textProcessorConfiguration;
 
-    @JsonProperty("notesDB")
-    @NotNull
-    public NotesDatabaseConfiguration notesDatabaseConfiguration;
+	@JsonProperty("notesDB")
+	@NotNull
+	@Valid
+	public NotesDatabaseConfiguration notesDatabaseConfiguration;
 
 }

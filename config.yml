@@ -100,10 +100,14 @@ database:
 serviceInstanceID: My first Notebook App
 
 textProcessor:
-  # local, remoteSingle, queue 
+  # local, remoteSingle, remoteMulti, queue 
   mode: local
-  # endpoint of text processor resource, required for mode "single"
-  textProcessorResource: https://localhost/api
+  # text processor service endpoints
+  # - in mode "remoteSingle" only the first endpoint will be used
+  # - in mode "remoteMulti" all endpoints will be used
+  textProcessors:
+    - http://localhost:8090/api
+    - http://localhost:8092/api
   # SQS, ActiveMQ
   # messsaging system, required for mode "queue"
   mom: SQS

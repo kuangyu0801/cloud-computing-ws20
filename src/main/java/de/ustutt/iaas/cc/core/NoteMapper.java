@@ -17,9 +17,9 @@ import de.ustutt.iaas.cc.api.Note;
  */
 public class NoteMapper implements ResultSetMapper<Note> {
 
-    @Override
-    public Note map(int index, ResultSet r, StatementContext ctx) throws SQLException {
-	return new Note(String.valueOf(r.getInt("id")), r.getString("author"));
-    }
+	@Override
+	public Note map(int index, ResultSet r, StatementContext ctx) throws SQLException {
+		return new Note(String.valueOf(r.getInt("id")), r.getString("author"));
+	}
 
 }
