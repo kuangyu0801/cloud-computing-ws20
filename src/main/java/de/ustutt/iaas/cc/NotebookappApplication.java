@@ -1,5 +1,6 @@
 package de.ustutt.iaas.cc;
 
+import java.util.List;
 import java.util.UUID;
 
 import javax.ws.rs.client.Client;
@@ -21,6 +22,7 @@ import de.ustutt.iaas.cc.core.ITextProcessor;
 import de.ustutt.iaas.cc.core.LocalTextProcessor;
 import de.ustutt.iaas.cc.core.QueueTextProcessor;
 import de.ustutt.iaas.cc.core.RemoteTextProcessor;
+import de.ustutt.iaas.cc.core.RemoteTextProcessorMulti;
 import de.ustutt.iaas.cc.core.SimpleNotebookDAO;
 import de.ustutt.iaas.cc.resources.NotebookResource;
 import io.dropwizard.Application;
@@ -126,13 +128,22 @@ public class NotebookappApplication extends Application<NotebookappConfiguration
 	    tp = new LocalTextProcessor("local-"+myID);
 	    break;
 	case remoteSingle:
-	    logger.info("Using remote text processor at {}",
-		    configuration.textProcessorConfiguration.textProcessorResource);
-	    JerseyClientConfiguration jcf = configuration.getJerseyClientConfiguration();
-	    jcf.setGzipEnabled(false);
-	    final Client client = new JerseyClientBuilder(environment)
-		    .using(jcf).build(getName());
-	    tp = new RemoteTextProcessor(configuration.textProcessorConfiguration.textProcessorResource, client);
+		String ep = configuration.textProcessorConfiguration.textProcessors.get(0); 
+	    logger.info("Using single remote text processor at {}", ep);
+	    JerseyClientConfiguration jcfs = configuration.getJerseyClientConfiguration();
+	    jcfs.setGzipEnabled(false);
+	    final Client clients = new JerseyClientBuilder(environment)
+		    .using(jcfs).build(getName());
+	    tp = new RemoteTextProcessor(ep, clients);
+	    break;
+	case remoteMulti:
+		List<String> eps = configuration.textProcessorConfiguration.textProcessors; 
+	    logger.info("Using multiple remote text processors: {}", eps);
+	    JerseyClientConfiguration jcfm = configuration.getJerseyClientConfiguration();
+	    jcfm.setGzipEnabled(false);
+	    final Client clientm = new JerseyClientBuilder(environment)
+		    .using(jcfm).build(getName());
+	    tp = new RemoteTextProcessorMulti(eps, clientm);
 	    break;
 	case queue:
 	    logger.info("Using queue text processor reading from {} and writing to {}",
