@@ -9,23 +9,23 @@ package de.ustutt.iaas.cc.core;
  */
 public class LocalTextProcessor implements ITextProcessor {
 
-    // the ID of this text processor
-    private final String myID;
+	// the ID of this text processor
+	private final String myID;
 
-    /**
-     * Instantiates a text processor and assigns the given ID to it.
-     * 
-     * @param id
-     *            The ID of the text processor.
-     */
-    public LocalTextProcessor(String id) {
-	super();
-	myID = id;
-    }
+	/**
+	 * Instantiates a text processor and assigns the given ID to it.
+	 * 
+	 * @param id
+	 *            The ID of the text processor.
+	 */
+	public LocalTextProcessor(String id) {
+		super();
+		myID = id;
+	}
 
-    @Override
-    public String process(String text) {
-	return "[locally processed by " + myID + "] - " + text;
-    }
+	@Override
+	public String process(String text) {
+		return "[locally processed by " + myID + "] - " + text;
+	}
 
 }

@@ -33,84 +33,84 @@ import io.swagger.annotations.Api;
 @Api(value = "Notebook")
 public class NotebookResource {
 
-    private final static Logger logger = LoggerFactory.getLogger(NotebookResource.class);
+	private final static Logger logger = LoggerFactory.getLogger(NotebookResource.class);
 
-    // DAO, used for data access
-    private final INotebookDAO dao;
-    // text processor, used for processing text before returning it
-    private final ITextProcessor processor;
+	// DAO, used for data access
+	private final INotebookDAO dao;
+	// text processor, used for processing text before returning it
+	private final ITextProcessor processor;
 
-    public NotebookResource(INotebookDAO dao, ITextProcessor processor) {
-	this.dao = dao;
-	this.processor = processor;
-    }
+	public NotebookResource(INotebookDAO dao, ITextProcessor processor) {
+		this.dao = dao;
+		this.processor = processor;
+	}
 
-    @GET
-    @Produces({ MediaType.APPLICATION_JSON })
-    @Timed
-    public Set<Note> getNotes() {
-	return dao.getNotes();
-    }
+	@GET
+	@Produces({ MediaType.APPLICATION_JSON })
+	@Timed
+	public Set<Note> getNotes() {
+		return dao.getNotes();
+	}
 
-    @POST
-    @Consumes({ MediaType.APPLICATION_JSON })
-    @Timed
-    public NoteWithText createNote(NoteWithText note) {
-	if (note != null) {
-	    // create note
-	    NoteWithText result = dao.createOrUpdateNote(note);
-	    if (result != null) {
-		// process its text
-		result.setText(processor.process(result.getText()));
+	@POST
+	@Consumes({ MediaType.APPLICATION_JSON })
+	@Timed
+	public NoteWithText createNote(NoteWithText note) {
+		if (note != null) {
+			// create note
+			NoteWithText result = dao.createOrUpdateNote(note);
+			if (result != null) {
+				// process its text
+				result.setText(processor.process(result.getText()));
+				// return note with processed text
+				return result;
+			} else {
+				logger.warn("Error creating or updating note {} ({})", note.getId(), note);
+			}
+		}
+		return null;
+	}
+
+	@GET
+	@Path("/{noteID}")
+	@Produces({ MediaType.APPLICATION_JSON })
+	@Timed
+	public NoteWithText getNote(@PathParam(value = "noteID") String noteID) {
+		// get note (if present)
+		NoteWithText result = dao.getNote(noteID);
+		if (result != null) {
+			// process its text
+			result.setText(processor.process(result.getText()));
+		}
 		// return note with processed text
 		return result;
-	    } else {
-		logger.warn("Error creating or updating note {} ({})", note.getId(), note);
-	    }
 	}
-	return null;
-    }
 
-    @GET
-    @Path("/{noteID}")
-    @Produces({ MediaType.APPLICATION_JSON })
-    @Timed
-    public NoteWithText getNote(@PathParam(value = "noteID") String noteID) {
-	// get note (if present)
-	NoteWithText result = dao.getNote(noteID);
-	if (result != null) {
-	    // process its text
-	    result.setText(processor.process(result.getText()));
+	@PUT
+	@Path("/{noteID}")
+	@Produces({ MediaType.APPLICATION_JSON })
+	@Timed
+	public NoteWithText updateNote(@PathParam(value = "noteID") String noteID, NoteWithText note) {
+		if (note != null) {
+			// just in case...
+			note.setId(noteID);
+			// update note (or create it, if it does not yet exist)
+			NoteWithText result = dao.createOrUpdateNote(note);
+			// process its text
+			result.setText(processor.process(result.getText()));
+			// return note with processed text
+			return result;
+		}
+		return null;
 	}
-	// return note with processed text
-	return result;
-    }
 
-    @PUT
-    @Path("/{noteID}")
-    @Produces({ MediaType.APPLICATION_JSON })
-    @Timed
-    public NoteWithText updateNote(@PathParam(value = "noteID") String noteID, NoteWithText note) {
-	if (note != null) {
-	    // just in case...
-	    note.setId(noteID);
-	    // update note (or create it, if it does not yet exist)
-	    NoteWithText result = dao.createOrUpdateNote(note);
-	    // process its text
-	    result.setText(processor.process(result.getText()));
-	    // return note with processed text
-	    return result;
+	@DELETE
+	@Path("/{noteID}")
+	@Produces({ MediaType.APPLICATION_JSON })
+	@Timed
+	public void deleteNote(@PathParam(value = "noteID") String noteID) {
+		// delete note if present
+		dao.deleteNote(noteID);
 	}
-	return null;
-    }
-
-    @DELETE
-    @Path("/{noteID}")
-    @Produces({ MediaType.APPLICATION_JSON })
-    @Timed
-    public void deleteNote(@PathParam(value = "noteID") String noteID) {
-	// delete note if present
-	dao.deleteNote(noteID);
-    }
 
 }

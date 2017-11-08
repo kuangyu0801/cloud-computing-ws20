@@ -24,20 +24,20 @@ import de.ustutt.iaas.cc.api.NoteWithText;
 @RegisterMapper({ NoteWithTextMapper.class, NoteMapper.class })
 public interface INotesDB {
 
-    @SqlUpdate("insert into notes (author, text) values (:author, :text)")
-    @GetGeneratedKeys
-    public String insert(@Bind("author") String author, @Bind("text") String text);
+	@SqlUpdate("insert into notes (author, text) values (:author, :text)")
+	@GetGeneratedKeys
+	public String insert(@Bind("author") String author, @Bind("text") String text);
 
-    @SqlUpdate("update notes set author = :author, text = :text where id = :id")
-    public int update(@Bind("id") String id, @Bind("author") String author, @Bind("text") String text);
+	@SqlUpdate("update notes set author = :author, text = :text where id = :id")
+	public int update(@Bind("id") String id, @Bind("author") String author, @Bind("text") String text);
 
-    @SqlQuery("select id, author, text from notes where id = :id")
-    public NoteWithText get(@Bind("id") String id);
+	@SqlQuery("select id, author, text from notes where id = :id")
+	public NoteWithText get(@Bind("id") String id);
 
-    @SqlQuery("select id, author from notes")
-    public Set<Note> getAll();
+	@SqlQuery("select id, author from notes")
+	public Set<Note> getAll();
 
-    @SqlUpdate("delete from notes where id = :id")
-    public int delete(@Bind("id") String id);
+	@SqlUpdate("delete from notes where id = :id")
+	public int delete(@Bind("id") String id);
 
 }

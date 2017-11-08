@@ -23,39 +23,39 @@ import de.thomaskrille.dropwizard_template_config.TemplateConfigVariablesProvide
  */
 public class PropertiesFileTemplateConfigVariablesProvider implements TemplateConfigVariablesProvider {
 
-    // properties file to be read
-    private final String propFilename;
-    // namespace under which the properties will be accessible in Freemarker
-    private final String namespace;
+	// properties file to be read
+	private final String propFilename;
+	// namespace under which the properties will be accessible in Freemarker
+	private final String namespace;
 
-    public PropertiesFileTemplateConfigVariablesProvider(String propFilename, String namespace) {
-	super();
-	this.propFilename = propFilename;
-	this.namespace = namespace;
-    }
-
-    @Override
-    public String getNamespace() {
-	return namespace;
-    }
-
-    @Override
-    public Map<String, String> getVariables() {
-	Properties prop = new Properties();
-	try (InputStream is = new FileInputStream(Paths.get(propFilename).toFile())) {
-	    prop.load(is);
-	} catch (FileNotFoundException e1) {
-	    System.err.println(propFilename + " not found");
-	} catch (IOException e) {
-	    System.err.println("Error reading " + propFilename);
+	public PropertiesFileTemplateConfigVariablesProvider(String propFilename, String namespace) {
+		super();
+		this.propFilename = propFilename;
+		this.namespace = namespace;
 	}
-	Map<String, String> result = new HashMap<String, String>();
-	for (String key : prop.stringPropertyNames()) {
-	    // TODO only for debugging, might contain sensitive data!
-	    System.out.println("Registering <" + key + "," + prop.getProperty(key) + "> for freemarker.");
-	    result.put(key, prop.getProperty(key));
+
+	@Override
+	public String getNamespace() {
+		return namespace;
 	}
-	return result;
-    }
+
+	@Override
+	public Map<String, String> getVariables() {
+		Properties prop = new Properties();
+		try (InputStream is = new FileInputStream(Paths.get(propFilename).toFile())) {
+			prop.load(is);
+		} catch (FileNotFoundException e1) {
+			System.err.println(propFilename + " not found");
+		} catch (IOException e) {
+			System.err.println("Error reading " + propFilename);
+		}
+		Map<String, String> result = new HashMap<String, String>();
+		for (String key : prop.stringPropertyNames()) {
+			// TODO only for debugging, might contain sensitive data!
+			System.out.println("Registering <" + key + "," + prop.getProperty(key) + "> for freemarker.");
+			result.put(key, prop.getProperty(key));
+		}
+		return result;
+	}
 
 }
