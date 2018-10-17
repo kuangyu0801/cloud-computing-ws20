@@ -50,6 +50,8 @@ serviceInstanceID: My first Notebook App
 textProcessor:
   # local, remoteSingle, remoteMulti, queue 
   mode: local
+  textProcessors:
+  - tbd
 
 notesDB:
   # tmp, jdbc, gcds
