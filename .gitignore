@@ -5,3 +5,5 @@
 /db.properties
 /config_generated.yml
 /aws.properties
+notebookapp.iml
+.idea
