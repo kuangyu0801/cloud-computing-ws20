@@ -7,7 +7,7 @@ The application provides a simple web UI that allows to create, retrieve, update
 Technically, the web UI is based on [Angular](https://angular.io/) interacting with a REST API. The notebook application itself (which provides the REST API) is based on [Dropwizard](http://www.dropwizard.io/). The notebook application comprises various implementations for the notes storage as well as for the text processor component. Details about these variants and how the notebook application can be configured to use them can be found below. 
 
 ## How to build and run the notebook application
-1. You need to have Java 8, Git, and Maven installed on your system
+1. You need to have Java 11, Git, and Maven installed on your system
 2. Checkout the source code from GitHub 
 3. Run `mvn clean install` to build your application
 4. Start application with `java -jar target/notebookapp-0.2.0.jar server config-min.yml`
