@@ -4,7 +4,7 @@
 
 	<modelVersion>4.0.0</modelVersion>
 	<prerequisites>
-		<maven>3.0.0</maven>
+		<maven>3.5.0</maven>
 	</prerequisites>
 
 	<groupId>de.ustutt.iaas.cc</groupId>
@@ -13,7 +13,7 @@
 	<!-- 0.x.y = development release, nothing stable -->
 	<!-- 1.0.0 = initial release of public API -->
 	<!-- x.y.z = major.minor.patch -->
-	<version>0.3.0</version>
+	<version>0.4.0</version>
 	<packaging>jar</packaging>
 
 	<name>notebookapp</name>
@@ -91,7 +91,7 @@
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 			<version>5.1.41</version>
-			<!-- note: from version 6 on, a different driver class is required and 
+			<!-- note: from version 6 on, a different driver class is required and
 				the current migrations will not work -->
 		</dependency>
 
@@ -116,6 +116,19 @@
 			<version>1.0.1</version>
 		</dependency>
 
+		<!-- API, java.xml.bind module -->
+		<dependency>
+			<groupId>javax.xml.bind</groupId>
+			<artifactId>jaxb-api</artifactId>
+			<version>2.3.1</version>
+		</dependency>
+
+		<!-- Runtime, com.sun.xml.bind module -->
+		<dependency>
+			<groupId>org.glassfish.jaxb</groupId>
+			<artifactId>jaxb-runtime</artifactId>
+			<version>2.3.2</version>
+		</dependency>
 
 	</dependencies>
 
@@ -123,7 +136,7 @@
 		<plugins>
 			<plugin>
 				<artifactId>maven-shade-plugin</artifactId>
-				<version>2.4.1</version>
+				<version>3.2.4</version>
 				<configuration>
 					<createDependencyReducedPom>true</createDependencyReducedPom>
 					<transformers>
@@ -157,7 +170,7 @@
 			</plugin>
 			<plugin>
 				<artifactId>maven-jar-plugin</artifactId>
-				<version>2.6</version>
+				<version>3.2.0</version>
 				<configuration>
 					<archive>
 						<manifest>
@@ -169,30 +182,17 @@
 			</plugin>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.3</version>
+				<version>3.8.1</version>
 				<configuration>
-					<source>1.8</source>
-					<target>1.8</target>
+					<release>11</release>
 				</configuration>
 			</plugin>
 			<plugin>
 				<artifactId>maven-source-plugin</artifactId>
-				<version>2.4</version>
+				<version>3.2.1</version>
 				<executions>
 					<execution>
 						<id>attach-sources</id>
-						<goals>
-							<goal>jar</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<artifactId>maven-javadoc-plugin</artifactId>
-				<version>2.10.3</version>
-				<executions>
-					<execution>
-						<id>attach-javadocs</id>
 						<goals>
 							<goal>jar</goal>
 						</goals>
@@ -206,7 +206,7 @@
 		<plugins>
 			<plugin>
 				<artifactId>maven-project-info-reports-plugin</artifactId>
-				<version>2.8.1</version>
+				<version>3.1.1</version>
 				<configuration>
 					<dependencyLocationsEnabled>false</dependencyLocationsEnabled>
 					<dependencyDetailsEnabled>false</dependencyDetailsEnabled>
@@ -214,7 +214,7 @@
 			</plugin>
 			<plugin>
 				<artifactId>maven-javadoc-plugin</artifactId>
-				<version>2.10.3</version>
+				<version>3.2.0</version>
 			</plugin>
 		</plugins>
 	</reporting>
