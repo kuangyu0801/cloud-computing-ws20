@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+	<!-- For demonstration purposes, creating the required database is done 
+		using two change sets (where the second fixes an error in the table definition 
+		of the first one). -->
+
+	<!-- Note: The size of the "text" column depends on the used DB system . 
+		For H2, a definition without size (i.e. "varchar") results in a varchar column 
+		with maximum size. In MySQL, the size of varchar has to be explicitly set. 
+		In addition, the size of a row (including all columns) is limited to 65.535 
+		(but might differ depending on db configuration...). -->
+
+	<!-- initial table creation -->
+	<changeSet id="1" author="hauptfn">
+		<createTable tableName="notes">
+			<column name="id" type="bigint" autoIncrement="true">
+				<constraints primaryKey="true" nullable="false" />
+			</column>
+			<column name="author" type="varchar(255)">
+				<constraints nullable="false" />
+			</column>
+			<column name="test" type="varchar(32767)" />
+		</createTable>
+	</changeSet>
+
+	<!-- fix column naming error in initial table creation -->
+	<changeSet id="2" author="hauptfn">
+		<renameColumn tableName="notes" oldColumnName="test"
+			newColumnName="text" columnDataType="varchar(32767)" />
+	</changeSet>
+
+</databaseChangeLog>
