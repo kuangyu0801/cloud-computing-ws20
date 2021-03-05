@@ -57,13 +57,13 @@ database:
   # the name of your JDBC driver
   # - H2: org.h2.Driver 
   # - MySQL: com.mysql.jdbc.Driver
-  driverClass: org.h2.Driver
+  driverClass: com.mysql.jdbc.Driver
   # the username
   # - H2 default root: sa
-  user: ${dbprops.user!'sa'}
+  user: ${DBUSER!}
   # the password
   # - H2 default root: empty
-  password: ${dbprops.password!}
+  password: ${DBPASS!}
   # the JDBC URL
   # - H2
   #   - jdbc:h2:./notes
@@ -71,7 +71,7 @@ database:
   #   - http://www.h2database.com/html/faq.html#database_files
   # - MySQL
   #   - jdbc:mysql://notesdbtest.cmgbepohg2tp.eu-west-1.rds.amazonaws.com:3306/NotesDB
-  url: ${dbprops.url!'jdbc:h2:./notes'}
+  url: ${DBURL!"jdbc:mysql://notesdbtest.cmgbepohg2tp.eu-west-1.rds.amazonaws.com:3306/NotesDB"}
   # any properties specific to your JDBC driver:
   properties:
     charSet: UTF-8
@@ -101,13 +101,12 @@ serviceInstanceID: My first Notebook App
 
 textProcessor:
   # local, remoteSingle, remoteMulti, queue 
-  mode: local
+  mode: ${TPMODE!local}
   # text processor service endpoints
   # - in mode "remoteSingle" only the first endpoint will be used
   # - in mode "remoteMulti" all endpoints will be used
   textProcessors:
-    - http://localhost:8090/api
-    - http://localhost:8092/api
+    - ${TPURL!"http://localhost:8080/api"}
   # SQS, ActiveMQ
   # messsaging system, required for mode "queue"
   mom: SQS
@@ -123,4 +122,4 @@ notesDB:
   # tmp = non-persistent in-memory
   # jdbc = SQL database, requires JDBC database configuration (http://www.dropwizard.io/1.1.0/docs/manual/jdbi.html)
   # gcds = google cloud datastore
-  mode: tmp
+  mode: ${DBMODE!tmp}

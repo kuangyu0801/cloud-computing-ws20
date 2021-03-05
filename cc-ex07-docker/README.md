@@ -36,3 +36,8 @@ docker Compose已經裝好在docker desktop裡面了
 # Task-3
 
 port 8080 for administator
+
+# Task-4
+```
+docker build -t my-nba-image .
+```
