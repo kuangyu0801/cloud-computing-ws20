@@ -22,6 +22,7 @@ eval $(docker-machine env awsmachine)
 ```
 
 這個時候docker cli已經是遠端到awsmachine的docker
+執行遠端的hello-world image
 
 ```
 docker run hello-world
@@ -29,4 +30,9 @@ docker run hello-world
 
 # Task-2
 
--docker Compose已經裝好在docker desktop裡面了
+docker Compose已經裝好在docker desktop裡面了
+
+
+# Task-3
+
+port 8080 for administator

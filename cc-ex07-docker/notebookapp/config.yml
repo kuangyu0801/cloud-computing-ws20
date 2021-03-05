@@ -1,0 +1,126 @@
+# <#noparse>
+# The configuration supports the use of freemarker templates as follows:
+#
+# ${PORT!8080}
+# -> Uses the value of the PORT environment variable.
+#    If the variable is not set, 8080 is used as default.
+#
+# ${dbprops.user!root}
+# -> Uses the value of the "user" property from the "db.properties" file.
+#    If the variable is not set, "root" is used as default.
+#    ("dbprops" refers to "db.properties")
+#
+# </#noparse> (-> tells freemarker to ignore all freemarker expression in the comment above)
+
+#------------------------------------------------------------
+# General Server Configuration 
+#------------------------------------------------------------
+
+server:
+  # JAX-RS resources are served from "/api/*"
+  # (asset bundle by default serves assets from "/*")
+  rootPath: /api/*
+  applicationConnectors:
+    - type: http
+      port: 80
+  adminConnectors:
+    - type: http
+      port: 8081
+
+logging:
+  # The default level of all loggers. Can be OFF, ERROR, WARN, INFO, DEBUG, TRACE, or ALL.
+  level: INFO
+  loggers:
+    de.ustutt.iaas.cc: DEBUG
+    # shows SQL statements
+    #org.skife.jdbi: TRACE
+    # shows error messages when JSON parsing fails
+    #io.dropwizard.jersey.jackson: DEBUG
+  appenders:
+    # write log to console
+    - type: console
+    # write log to file
+    - type: file
+      threshold: DEBUG
+      logFormat: "%-6level [%d{HH:mm:ss.SSS}] [%t] %logger{5} - %X{code} %msg %n"
+      currentLogFilename: /tmp/application.log
+      archivedLogFilenamePattern: /tmp/application-%d{yyyy-MM-dd}.log
+      archivedFileCount: 7
+      timeZone: UTC
+
+# swagger configuration
+swagger:
+  resourcePackage: de.ustutt.iaas.cc.resources
+
+# JDBC database configuration
+database:
+  # the name of your JDBC driver
+  # - H2: org.h2.Driver 
+  # - MySQL: com.mysql.jdbc.Driver
+  driverClass: org.h2.Driver
+  # the username
+  # - H2 default root: sa
+  user: ${dbprops.user!'sa'}
+  # the password
+  # - H2 default root: empty
+  password: ${dbprops.password!}
+  # the JDBC URL
+  # - H2
+  #   - jdbc:h2:./notes
+  #   - uses (or creates) a database file in the directory where the application is started
+  #   - http://www.h2database.com/html/faq.html#database_files
+  # - MySQL
+  #   - jdbc:mysql://notesdbtest.cmgbepohg2tp.eu-west-1.rds.amazonaws.com:3306/NotesDB
+  url: ${dbprops.url!'jdbc:h2:./notes'}
+  # any properties specific to your JDBC driver:
+  properties:
+    charSet: UTF-8
+  # the maximum amount of time to wait on an empty pool before throwing an exception
+  maxWaitForConnection: 1s
+  # the SQL query to run when validating a connection's liveness
+  validationQuery: "/* DB Health Check */ SELECT 1"
+  # the timeout before a connection validation queries fail
+  validationQueryTimeout: 3s
+  # the minimum number of connections to keep open
+  minSize: 8
+  # the maximum number of connections to keep open
+  maxSize: 32
+  # whether or not idle connections should be validated
+  checkConnectionWhileIdle: false
+  # the amount of time to sleep between runs of the idle connection validation, abandoned cleaner and idle pool resizing
+  evictionInterval: 10s
+  # the minimum amount of time an connection must sit idle in the pool before it is eligible for eviction
+  minIdleTime: 1 minute
+
+#------------------------------------------------------------
+# Notebook App Configuration 
+#------------------------------------------------------------
+
+# sets the ID of this service instance, optional
+serviceInstanceID: My first Notebook App
+
+textProcessor:
+  # local, remoteSingle, remoteMulti, queue 
+  mode: local
+  # text processor service endpoints
+  # - in mode "remoteSingle" only the first endpoint will be used
+  # - in mode "remoteMulti" all endpoints will be used
+  textProcessors:
+    - http://localhost:8090/api
+    - http://localhost:8092/api
+  # SQS, ActiveMQ
+  # messsaging system, required for mode "queue"
+  mom: SQS
+  # request queue, required for mode "queue"
+  requestQueueName: TextProcessorRequests
+  # response queue, required for mode "queue"
+  responseQueueName: TextProcessorResponses
+  # only for ActiveMQ
+  activeMQurl: tcp://localhost:61616
+
+notesDB:
+  # tmp, jdbc, gcds
+  # tmp = non-persistent in-memory
+  # jdbc = SQL database, requires JDBC database configuration (http://www.dropwizard.io/1.1.0/docs/manual/jdbi.html)
+  # gcds = google cloud datastore
+  mode: tmp
