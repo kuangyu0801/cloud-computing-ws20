@@ -40,4 +40,8 @@ port 8080 for administator
 # Task-4
 ```
 docker build -t my-nba-image .
+
+# port mapping
+docker run -d -p 8080:80 -p 8081:8081 --name nb1 my-nba-image
 ```
+
