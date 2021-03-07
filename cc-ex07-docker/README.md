@@ -38,10 +38,39 @@ docker Compose已經裝好在docker desktop裡面了
 port 8080 for administator
 
 # Task-4
+
+start local notebook app
 ```
 docker build -t my-nba-image .
 
 # port mapping
-docker run -d -p 8080:80 -p 8081:8081 --name nb1 my-nba-image
+docker run -d -p 8080:80 --name nb1 my-nba-image
 ```
+Need to edit EC2 instance security for port 80 and 8081
+Access to nodebook on EC2 instance-ip:8080 should be successful
+
+creating internal network among containers
+```
+docker network create -d bridge net1
+```
+
+start notebook app + text processor
+```
+docker run -d --name tp2 --net=net1 my-tp-image
+
+docker run -d --name nb2 --net=net1 -e TPMODE=remoteSingle -e TPURL=http://tp2:80/api -p 8080:80 my-nba-image
+```
+
+
+```
+docker tag a9d6138c548a kuangyu0801/text-processor-service:v1
+
+docker push kuangyu0801/text-processor-service:v1 
+
+docker tag cbeed6dee953 kuangyu0801/notebookapp:v1
+
+docker push kuangyu0801/notebookapp:v1
+
+```
+# Task-5
 

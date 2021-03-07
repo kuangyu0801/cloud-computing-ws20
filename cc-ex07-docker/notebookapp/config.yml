@@ -71,7 +71,7 @@ database:
   #   - http://www.h2database.com/html/faq.html#database_files
   # - MySQL
   #   - jdbc:mysql://notesdbtest.cmgbepohg2tp.eu-west-1.rds.amazonaws.com:3306/NotesDB
-  url: ${DBURL!"jdbc:mysql://notesdbtest.cmgbepohg2tp.eu-west-1.rds.amazonaws.com:3306/NotesDB"}
+  url: ${DBURL!"jdbc:mysql://localhost:3306/NotesDB"}
   # any properties specific to your JDBC driver:
   properties:
     charSet: UTF-8

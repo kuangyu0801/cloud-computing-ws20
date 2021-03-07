@@ -20,7 +20,8 @@ services:
       - TPMODE=remoteSingle
       - TPURL=http://textprocessor:80/api
       - DBMODE=jdbc
-      - DBURL=jdbc:mysql://database:3306/NotesDB - DBUSER=root
+      - DBURL=jdbc:mysql://database:3306/NotesDB 
+      - DBUSER=root
       - DBPASS=secret
       - DBHOST=database
   database:
