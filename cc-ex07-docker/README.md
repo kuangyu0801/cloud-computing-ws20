@@ -48,7 +48,7 @@ docker run -d -p 8080:80 --name nb1 my-nba-image
 ```
 Need to edit EC2 instance security for port 80 and 8081
 Access to nodebook on EC2 instance-ip:8080 should be successful
-[!avatar](../ref-pic/ex07-ec2-security.png)
+![avatar](../ref-pic/ex07-ec2-security.png)
 creating internal network among containers
 ```
 docker network create -d bridge net1
@@ -62,7 +62,7 @@ docker run -d --name nb2 --net=net1 -e TPMODE=remoteSingle -e TPURL=http://tp2:8
 ```
 
 直接用手動run nba, tp, 跟mysql database看來會跑不起來, 從docker-compose看得出來似乎是mysql沒有順利登入
-[!avatar](../ref-pic/ex07-docker-compose-logging.png)
+![avatar](../ref-pic/ex07-docker-compose-logging.png)
 ```
 docker run -d --name tp3 --net=net1 my-tp-image
 docker run -d --name mysql3 --net=net1 -e MYSQL_ROOT_PASSWORD=secret -e MYSQL_DATABASE=NotesDB mysql:5.7
