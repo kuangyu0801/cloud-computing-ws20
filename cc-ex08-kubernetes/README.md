@@ -5,6 +5,9 @@ brew install minikube
 
 minikube start
 
+# make sure kubectl is updateed to current minikube version
+minikube kubectl -- get pods -A
+
 # make sure is connected
 kubectl version
 
@@ -24,15 +27,11 @@ kubectl apply -f nba-service.yaml
 kubectl apply -f tp-service.yaml
 
 # enble nba service
-minicube service --url notebookapp
+minikube service --url notebookapp
 
-minicube exec -it  ##deployment-id##-- /bin/bash
+minikube exec -it  ##deployment-id##-- /bin/bash
 
-kubctl scale deployment textprocessor --replicas=3
-
-
-
-
+kubectl scale deployment textprocessor --replicas=3
 
 
 
