@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nba-deployment
+  labels:
+    app: notebookapp
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: notebookapp
+  template:
+    metadata:
+      labels:
+        app: notebookapp
+    spec:
+      containers:
+      - name: notebookapp
+        image: ccexercises/notebookapp:v1
+        env:
+        - name: TPMODE
+          value: "remoteSingle"
+        - name: TPURL
+          value: "http://textprocessor:80/api"
+        ports:
+        - containerPort: 80
+

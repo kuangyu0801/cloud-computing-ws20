@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: textprocessor
+  labels:
+    app: textprocessor
+spec:
+  replicas: 5
+  selector:
+    matchLabels:
+      app: textprocessor
+  template:
+    metadata:
+      labels:
+        app: textprocessor
+    spec:
+      containers:
+      - name: textprocessor
+        image: ccexercises/text-processor-service:v1
+        ports:
+        - containerPort: 80
+
+
