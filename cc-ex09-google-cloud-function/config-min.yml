@@ -49,9 +49,9 @@ serviceInstanceID: My first Notebook App
 
 textProcessor:
   # local, remoteSingle, remoteMulti, queue 
-  mode: local
+  mode: remoteSingle
   textProcessors:
-  - tbd
+  - https://us-central1-beaming-signal-306712.cloudfunctions.net/function-simple
 
 notesDB:
   # tmp, jdbc, gcds
