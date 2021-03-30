@@ -51,7 +51,7 @@ textProcessor:
   # local, remoteSingle, remoteMulti, queue 
   mode: remoteSingle
   textProcessors:
-  - https://us-central1-beaming-signal-306712.cloudfunctions.net/function-simple
+  - https://us-central1-beaming-signal-306712.cloudfunctions.net/text-processor
 
 notesDB:
   # tmp, jdbc, gcds
