@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "@google-cloud/pubsub": "0.13.0",
+	"@google-cloud/translate": "0.8.2"
+  }
+}
